@@ -41,7 +41,7 @@ public class DAO<T> {
 		return lista;
 	}
 
-	public T findById(Long id) {
+	public T findById(Integer id) {
 		EntityManager em = new JPAUtil().getEntityManager();
 		T instancia = null;
 		try {

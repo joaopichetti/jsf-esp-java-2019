@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"> 
+
+<h:head>
+	<title>Clientes</title>
+</h:head> 
+<body>
+	<h:form>
+		<h:dataTable value="#{clienteListBean.clientes}" var="cliente"
+			emptyMessage="Nenhum cliente cadastrado" 
+			rowKey="#{cliente.codigo}"
+			selectionMode="single" selection="#{clienteListBean.cliente}">
+			<f:facet name="header">Clientes</f:facet>
+			<h:column>
+				<f:facet name="header">Código</f:facet>
+				<h:outputLabel value="#{cliente.codigo}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Nome</f:facet>		
+				<h:outputLabel value="#{cliente.nome}" />
+			</h:column>
+			<h:column>		
+				<f:facet name="header">CPF</f:facet>
+				<h:outputLabel value="#{cliente.cpf}" />
+			</h:column>
+			<h:column>		
+				<f:facet name="header">RG</f:facet>
+				<h:outputLabel value="#{cliente.rg}" />
+			</h:column>
+			<f:facet name="footer">
+				<h:commandButton action="#{clienteListBean.novo()}" 
+					value="Novo" />
+			</f:facet>
+		</h:dataTable>
+	</h:form>
+</body> 
+</html>

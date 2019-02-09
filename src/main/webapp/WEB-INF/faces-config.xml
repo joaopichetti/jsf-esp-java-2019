@@ -1,7 +1,38 @@
 <?xml version="1.0"?>
 <faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
- 	
+ 	<navigation-rule>
+ 		<from-view-id>/cliente-list.xhtml</from-view-id>
+ 		<navigation-case>
+ 			<from-outcome>formulario</from-outcome>
+ 			<to-view-id>/cliente-form.xhtml</to-view-id>
+ 			<redirect />
+ 		</navigation-case>
+ 	</navigation-rule>
+ 	<navigation-rule>
+ 		<from-view-id>/cliente-form.xhtml</from-view-id>
+ 		<navigation-case>
+ 			<from-outcome>lista</from-outcome>
+ 			<to-view-id>/cliente-list.xhtml</to-view-id>
+ 			<redirect />
+ 		</navigation-case>
+ 	</navigation-rule> 	
+ 	<navigation-rule>
+ 		<from-view-id>/cliente-list-teste.xhtml</from-view-id>
+ 		<navigation-case>
+ 			<from-outcome>formulario</from-outcome>
+ 			<to-view-id>/cliente-form-teste.xhtml</to-view-id>
+ 			<redirect />
+ 		</navigation-case>
+ 	</navigation-rule>
+ 	<navigation-rule>
+ 		<from-view-id>/cliente-form-teste.xhtml</from-view-id>
+ 		<navigation-case>
+ 			<from-outcome>lista</from-outcome>
+ 			<to-view-id>/cliente-list-teste.xhtml</to-view-id>
+ 			<redirect />
+ 		</navigation-case>
+ 	</navigation-rule>
 </faces-config>
 
 

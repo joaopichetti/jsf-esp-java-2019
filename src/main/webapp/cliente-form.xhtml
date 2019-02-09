@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Formulário de Clientes</title>
+</h:head>
+<h:body>
+	<f:metadata>
+		<f:viewParam name="codigo" value="#{clienteFormBean.codigo}" />
+		<f:viewAction action="#{clienteFormBean.carregarCliente()}" />
+	</f:metadata>
+	<h:form>
+		<h:inputHidden 
+			value="#{clienteFormBean.cliente.codigo}" />
+		<p:panelGrid>
+			<f:facet name="header">
+				<p:row>
+					<p:column colspan="2">Formulário de Clientes</p:column>
+				</p:row>
+			</f:facet>
+			<p:row>
+				<p:column><p:outputLabel value="Código" /></p:column>
+				<p:column>
+					<p:outputLabel value="#{clienteFormBean.cliente.codigo}" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column><p:outputLabel value="Nome" for="nome" /></p:column>
+				<p:column>
+					<p:inputText id="nome" 
+						value="#{clienteFormBean.cliente.nome}" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column><p:outputLabel value="CPF" for="cpf" /></p:column>
+				<p:column>
+					<p:inputText id="cpf"
+						value="#{clienteFormBean.cliente.cpf}" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column><p:outputLabel value="RG" for="rg" /></p:column>
+				<p:column>
+					<p:inputText id="rg"
+						value="#{clienteFormBean.cliente.rg}" />
+				</p:column>
+			</p:row>
+			<f:facet name="footer">
+				<p:row>
+					<p:column colspan="2">
+						<p:commandButton value="Salvar" ajax="false"
+							action="#{clienteFormBean.salvar()}" />
+						<p:commandButton value="Cancelar" ajax="false"
+							action="#{clienteFormBean.voltarParaListagem()}" />
+					</p:column>
+				</p:row>
+			</f:facet>
+		</p:panelGrid>
+	</h:form>	
+</h:body>
+</html>
+
+
+

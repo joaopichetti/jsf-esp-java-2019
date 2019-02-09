@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#cliente-list.xhtml"
+  PATH="/cliente-list.xhtml" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#cliente-list.xhtml:0" NAME="item"
+   PATH="/cliente-list.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="formulario::#cliente-form.xhtml"
+    NAME="output" PATH="/cliente-form.xhtml"
+    TARGET="rules:#cliente-form.xhtml" TITLE="formulario" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#cliente-form.xhtml"
+  PATH="/cliente-form.xhtml" SHAPE="240,33,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#cliente-form.xhtml:0" NAME="item"
+   PATH="/cliente-form.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="lista::#cliente-list.xhtml" NAME="output"
+    PATH="/cliente-list.xhtml" TARGET="rules:#cliente-list.xhtml"
+    TITLE="lista" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#cliente-list-teste.xhtml"
+  PATH="/cliente-list-teste.xhtml" SHAPE="32,129,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#cliente-list-teste.xhtml:0" NAME="item"
+   PATH="/cliente-list-teste.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="formulario::#cliente-form-teste.xhtml"
+    NAME="output" PATH="/cliente-form-teste.xhtml"
+    TARGET="rules:#cliente-form-teste.xhtml" TITLE="formulario" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#cliente-form-teste.xhtml"
+  PATH="/cliente-form-teste.xhtml" SHAPE="240,145,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#cliente-form-teste.xhtml:0" NAME="item"
+   PATH="/cliente-form-teste.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="lista::#cliente-list-teste.xhtml"
+    NAME="output" PATH="/cliente-list-teste.xhtml"
+    TARGET="rules:#cliente-list-teste.xhtml" TITLE="lista" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+</PROCESS>
