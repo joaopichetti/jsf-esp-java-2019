@@ -10,7 +10,11 @@
 </h:head>
 <h:body>
 	<h:form id="form">
+		<h:inputHidden value="#{produtoBean.produto.codigo}" />
 		<p:panelGrid columns="2">
+			<p:outputLabel value="Código" />
+			<p:outputLabel value="#{produtoBean.produto.codigo}" />
+		
 			<p:outputLabel value="Nome" for="nome" />
 			<p:inputText id="nome" 
 				value="#{produtoBean.produto.nome}" />
@@ -29,13 +33,16 @@
 					action="#{produtoBean.salvar()}" />
 			</f:facet>
 		</p:panelGrid>
-	</h:form>
-	
+	</h:form>	
 	<br />
+	<p:messages />
 	<h:form>
 		<p:dataTable value="#{produtoBean.produtos}" 
 			var="produto"
-			emptyMessage="Nenhum produto cadastrado">
+			emptyMessage="Nenhum produto cadastrado"
+			rowKey="#{produto.codigo}"
+			selection="#{produtoBean.produto}"
+			selectionMode="single">
 			<p:column headerText="Código">
 				<p:outputLabel value="#{produto.codigo}" />
 			</p:column>
@@ -51,6 +58,10 @@
 			<f:facet name="footer">
 				<p:commandButton value="Novo" ajax="false"
 					action="#{produtoBean.novo()}" />
+				<p:commandButton value="Alterar" ajax="false"
+					action="#{produtoBean.alterar()}" />
+				<p:commandButton value="Remover" ajax="false"
+					action="#{produtoBean.remover()}" />
 			</f:facet>
 		</p:dataTable>
 	</h:form>
