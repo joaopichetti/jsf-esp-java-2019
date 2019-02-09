@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Página HTML</title>
+</head>
+<body>
+	<h1>JSF (Página HTML)</h1>
+	<form id="form" method="post">
+		<fieldset>
+			<legend>Preencha o formulário</legend>
+			<table>
+				<tbody>
+					<tr>
+						<td>
+							<label for="nome">Nome</label>
+						</td>
+						<td>
+							<input type="text" id="nome"
+								name="nome">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="senha">Senha</label>
+						</td>
+						<td>
+							<input type="password" id="senha"
+								name="senha">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="linguagem">
+								Linguagem de programação
+							</label>
+						</td>
+						<td>
+							<select id="linguagem"
+								name="linguagem">
+								<option value="java">Java</option>
+								<option value="c">C</option>
+								<option value="cpp">C++</option>
+								<option value="cs">C#</option>
+								<option value="py">Python</option>
+								<option value="js">JavaScript</option>
+								<option value="php">PHP</option>
+							</select>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<input type="submit" value="Enviar">
+		</fieldset>
+	</form>
+</body>
+</html>

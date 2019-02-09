@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Página XHTML</title>
+</head>
+<body>
+	<h1>JSF (Página XHTML)</h1>
+	<h:form id="form">
+		<fieldset>
+			<legend>Preencha o formulário</legend>
+			<h:panelGrid columns="2">
+				<h:outputLabel for="nome" value="Nome" />
+				<h:inputText id="nome" />
+				
+				<h:outputLabel for="senha" value="Senha" />
+				<h:inputSecret id="senha" />
+				
+				<h:outputLabel for="linguagem"
+					value="Linguagem de programação" />
+				<h:selectOneMenu id="linguagem">
+					<f:selectItem itemValue="java" 
+						itemLabel="Java" />
+					<f:selectItem itemValue="c" itemLabel="C" />
+					<f:selectItem itemValue="cpp"
+						itemLabel="C++" />
+					<f:selectItem itemValue="cs"
+						itemLabel="CS" />
+					<f:selectItem itemValue="py"
+						itemLabel="Python" />
+					<f:selectItem itemValue="js"
+						itemLabel="JavaScript" />
+					<f:selectItem itemValue="php"
+						itemLabel="PHP" />
+				</h:selectOneMenu>
+				
+				<h:commandButton id="button" value="Enviar" />
+			</h:panelGrid>
+		</fieldset>
+	</h:form>
+</body>
+</html>
