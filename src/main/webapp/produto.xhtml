@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Produtos</title>
+</h:head>
+<h:body>
+	<h:form id="form">
+		<p:panelGrid columns="2">
+			<p:outputLabel value="Nome" for="nome" />
+			<p:inputText id="nome" 
+				value="#{produtoBean.produto.nome}" />
+			
+			<p:outputLabel value="Categoria" for="categoria" />
+			<p:inputText id="categoria"
+				value="#{produtoBean.produto.categoria}" />
+			
+			<p:outputLabel value="Preço" for="preco" />
+			<p:inputText id="preco"
+				value="#{produtoBean.produto.preco}" />
+			
+			<f:facet name="footer">
+				<p:commandButton id="btnSalvar" value="Salvar"
+					ajax="false" 
+					action="#{produtoBean.salvar()}" />
+			</f:facet>
+		</p:panelGrid>
+	</h:form>
+	
+	<br />
+	<h:form>
+		<p:dataTable value="#{produtoBean.produtos}" 
+			var="produto"
+			emptyMessage="Nenhum produto cadastrado">
+			<p:column headerText="Código">
+				<p:outputLabel value="#{produto.codigo}" />
+			</p:column>
+			<p:column headerText="Nome">
+				<p:outputLabel value="#{produto.nome}" />
+			</p:column>
+			<p:column headerText="Categoria">
+				<p:outputLabel value="#{produto.categoria}" />
+			</p:column>
+			<p:column headerText="Preço">
+				<p:outputLabel value="#{produto.preco}" />
+			</p:column>
+			<f:facet name="footer">
+				<p:commandButton value="Novo" ajax="false"
+					action="#{produtoBean.novo()}" />
+			</f:facet>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>
+
+
+
+
+
+

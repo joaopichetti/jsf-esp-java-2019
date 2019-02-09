@@ -7,6 +7,7 @@
 	<persistence-unit name="jsf-esp-java-2019" transaction-type="RESOURCE_LOCAL">
 		
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<class>br.edu.utfpr.jsf.model.Produto</class>
 
 		<properties>
 			<!-- MYSQL -->
