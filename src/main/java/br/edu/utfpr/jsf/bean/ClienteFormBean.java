@@ -1,5 +1,7 @@
 package br.edu.utfpr.jsf.bean;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
@@ -7,6 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
 import br.edu.utfpr.jsf.dao.DAO;
+import br.edu.utfpr.jsf.model.Cidade;
 import br.edu.utfpr.jsf.model.Cliente;
 import br.edu.utfpr.jsf.util.FacesUtil;
 
@@ -16,11 +19,13 @@ public class ClienteFormBean {
 	private Cliente cliente;
 	private DAO<Cliente> dao;
 	private Integer codigo;
+	private List<Cidade> cidades;
 	
 	@PostConstruct
 	public void inicializar() {
 		dao = new DAO<>(Cliente.class);
 		cliente = new Cliente();		
+		cidades = new DAO<Cidade>(Cidade.class).findAll();
 	}
 
 	public Cliente getCliente() {
@@ -36,6 +41,14 @@ public class ClienteFormBean {
 
 	public void setCodigo(Integer codigo) {
 		this.codigo = codigo;
+	}
+
+	public List<Cidade> getCidades() {
+		return cidades;
+	}
+
+	public void setCidades(List<Cidade> cidades) {
+		this.cidades = cidades;
 	}
 
 	public String salvar() {

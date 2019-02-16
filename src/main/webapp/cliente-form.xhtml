@@ -115,6 +115,23 @@
 					<p:message for="prazoPag" />
 				</p:column>
 			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Cidade" for="cidade" />
+				</p:column>
+				<p:column>
+					<p:selectOneMenu id="cidade"
+						value="#{clienteFormBean.cliente.cidade}"
+						converter="cidadeConverter">
+						<f:selectItem itemLabel="Selecione uma cidade"
+							itemValue="" />
+						<f:selectItems value="#{clienteFormBean.cidades}"
+							var="cidade" itemLabel="#{cidade.nome}"
+							itemValue="#{cidade}" />
+					</p:selectOneMenu>
+					<p:message for="cidade" />
+				</p:column>
+			</p:row>
 			<f:facet name="footer">
 				<p:row>
 					<p:column colspan="2">

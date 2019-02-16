@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Cliente {
@@ -18,6 +19,8 @@ public class Cliente {
 	private LocalDate dataNascimento;
 	private Double limite;
 	private Integer prazoPag;
+	@ManyToOne
+	private Cidade cidade;
 		
 	public Integer getCodigo() {
 		return codigo;
@@ -43,7 +46,6 @@ public class Cliente {
 	public void setRg(String rg) {
 		this.rg = rg;
 	}
-	
 	public String getTelefone() {
 		return telefone;
 	}
@@ -67,6 +69,12 @@ public class Cliente {
 	}
 	public void setPrazoPag(Integer prazoPag) {
 		this.prazoPag = prazoPag;
+	}
+	public Cidade getCidade() {
+		return cidade;
+	}
+	public void setCidade(Cidade cidade) {
+		this.cidade = cidade;
 	}
 	@Override
 	public int hashCode() {
