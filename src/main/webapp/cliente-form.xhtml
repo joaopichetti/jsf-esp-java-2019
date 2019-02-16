@@ -82,10 +82,7 @@
 				<p:column>
 					<p:inputText id="dataNascimento"
 						value="#{clienteFormBean.cliente.dataNascimento}"
-						placeholder="99/99/9999"
-						converterMessage="Data inválida">
-						<f:convertDateTime pattern="dd/MM/yyyy" />
-					</p:inputText>
+						placeholder="99/99/9999" />
 					<p:message for="dataNascimento" />
 				</p:column>
 			</p:row>
@@ -124,7 +121,8 @@
 						<p:commandButton value="Salvar" ajax="false"
 							action="#{clienteFormBean.salvar()}" />
 						<p:commandButton value="Cancelar" ajax="false"
-							action="#{clienteFormBean.voltarParaListagem()}" />
+							action="#{clienteFormBean.voltarParaListagem()}"
+							immediate="true" />
 					</p:column>
 				</p:row>
 			</f:facet>

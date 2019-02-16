@@ -1,11 +1,12 @@
 package br.edu.utfpr.jsf.validator;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+
+import br.edu.utfpr.jsf.util.FacesUtil;
 
 @FacesValidator
 public class CpfValidator implements Validator {
@@ -15,9 +16,8 @@ public class CpfValidator implements Validator {
 			Object value) throws ValidatorException {
 		if (value != null && !value.toString().isEmpty() &&
 				!cpfValido(value.toString())) {
-			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"CPF inválido", null);
-			throw new ValidatorException(fm);
+			throw new ValidatorException(
+					FacesUtil.criarMensagemErro("CPF inválido"));
 		}
 	}
 	

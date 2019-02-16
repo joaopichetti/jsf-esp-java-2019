@@ -28,7 +28,21 @@
 			<p:column headerText="RG">
 				<p:outputLabel value="#{cliente.rg}" />
 			</p:column>
-			
+			<!--  -->
+			<p:column headerText="Telefone">
+				<p:outputLabel value="#{cliente.telefone}" />
+			</p:column>
+			<p:column headerText="Data de nascimento">
+				<p:outputLabel value="#{cliente.dataNascimento}" />
+			</p:column>
+			<p:column headerText="Limite">
+				<p:outputLabel value="#{cliente.limite}">
+					<f:convertNumber pattern="R$ #,##0.00" />
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Prazo para pagamento">
+				<p:outputLabel value="#{cliente.prazoPag}" />
+			</p:column>
 			<!-- COLUNA PARA ALTERAR -->
 			<p:column headerText="Alterar">
 				<p:link outcome="cliente-form" value="Alterar">

@@ -1,7 +1,6 @@
 package br.edu.utfpr.jsf.bean;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -9,6 +8,7 @@ import javax.faces.validator.ValidatorException;
 
 import br.edu.utfpr.jsf.dao.DAO;
 import br.edu.utfpr.jsf.model.Cliente;
+import br.edu.utfpr.jsf.util.FacesUtil;
 
 @ManagedBean
 public class ClienteFormBean {
@@ -65,9 +65,8 @@ public class ClienteFormBean {
 		final String pattern = "\\(?\\d{2}\\)? ?9?\\d{4}-?\\d{4}";
 		if (value != null && !value.toString().isEmpty() &&
 				!value.toString().matches(pattern)) {
-			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Telefone inválido", null);
-			throw new ValidatorException(fm);
+			throw new ValidatorException(
+					FacesUtil.criarMensagemErro("Telefone inválido"));
 		}
 	}
 	

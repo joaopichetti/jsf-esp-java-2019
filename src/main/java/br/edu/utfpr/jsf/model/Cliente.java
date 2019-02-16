@@ -1,6 +1,6 @@
 package br.edu.utfpr.jsf.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,7 +15,7 @@ public class Cliente {
 	private String cpf;
 	private String rg;
 	private String telefone;
-	private Date dataNascimento;
+	private LocalDate dataNascimento;
 	private Double limite;
 	private Integer prazoPag;
 		
@@ -50,10 +50,10 @@ public class Cliente {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	public Date getDataNascimento() {
+	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
-	public void setDataNascimento(Date dataNascimento) {
+	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 	public Double getLimite() {
