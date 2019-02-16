@@ -46,9 +46,7 @@
 					<p:inputText id="cpf"
 						value="#{clienteFormBean.cliente.cpf}"
 						placeholder="999.999.999-99"
-						validatorMessage="Tamanho máximo: 14 caracteres">
-						<f:validateLength maximum="14" />
-					</p:inputText>
+						validator="cpfValidator" />
 					<p:message for="cpf" />
 				</p:column>
 			</p:row>
@@ -71,17 +69,15 @@
 					<p:inputText id="telefone"
 						value="#{clienteFormBean.cliente.telefone}"
 						placeholder="(99) 99999-9999"
-						validatorMessage="Tamanho máximo: 15 caracteres"
-						maxlength="15">
-						<f:validateLength maximum="15" />
-					</p:inputText>
+						validator="#{clienteFormBean.telefoneValido}"
+						maxlength="15" />
 					<p:message for="telefone" />
 				</p:column>
 			</p:row>
 			<p:row>
 				<p:column>
 					<p:outputLabel value="Data de nascimento" 
-						id="dataNascimento" />
+						for="dataNascimento" />
 				</p:column>
 				<p:column>
 					<p:inputText id="dataNascimento"
