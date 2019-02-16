@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Pedidos</title>
+</h:head>
+<h:body>
+	<p:panel id="pnlForm" header="Cadastro de Pedidos">
+		<h:form>
+			<h:inputHidden value="#{pedidoBean.pedido.codigo}" />
+			<p:panelGrid>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Código" />
+					</p:column>
+					<p:column>
+						<p:outputLabel value="#{pedidoBean.pedido.codigo}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Data" for="data" />
+					</p:column>
+					<p:column>
+						<p:calendar id="data"
+							value="#{pedidoBean.pedido.data}"
+							required="true"
+							requiredMessage="Informe a data" />
+						<p:message for="data" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Cliente" for="cliente" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="cliente" required="true"
+							requiredMessage="Selecione um cliente"
+							value="#{pedidoBean.pedido.cliente}"
+							converter="clienteConverter">
+							<f:selectItem itemLabel="Selecione um cliente"
+								itemValue="" />
+							<f:selectItems value="#{pedidoBean.clientes}"
+								var="cliente" itemLabel="#{cliente.nome}"
+								itemValue="#{cliente}" />
+						</p:selectOneMenu>
+						<p:message for="cliente" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Total" />
+					</p:column>
+					<p:column>
+						<p:outputLabel id="total"
+							value="#{pedidoBean.pedido.total}">
+							<f:convertNumber pattern="R$ #,##0.00" />	
+						</p:outputLabel>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+			<br />
+			<p:dataTable id="tblItens" value="#{pedidoBean.pedido.itens}"
+				var="item" emptyMessage="Adicione um produto"
+				rowIndexVar="indice">
+				<f:facet name="header">Produtos</f:facet>
+				<p:column headerText="Produto">
+					<p:selectOneMenu id="produto" required="true"
+						requiredMessage="Selecione um produto"
+						value="#{item.produto}"
+						converter="produtoConverter">
+						<f:selectItem itemValue=""
+							itemLabel="Selecione um produto" />
+						<f:selectItems value="#{produtoBean.produtos}"
+							var="produto" itemLabel="#{produto.nome}"
+							itemValue="#{produto}" />	
+					</p:selectOneMenu>
+				</p:column>
+				<p:column headerText="Quantidade">
+					<p:inputText id="quantidade"
+						value="#{item.quantidade}"
+						required="true"
+						requiredMessage="Informe a quantidade"
+						validatorMessage="Valor mínimo: 0,01">
+						<f:validateDoubleRange minimum="0.01" />	
+					</p:inputText>
+				</p:column>
+				<p:column headerText="Valor unitário">
+					<p:inputText id="valorUnitario" required="true"
+						requiredMessage="Informe o valor unitário"
+						validatorMessage="Valor mínimo: 0,01">
+						<f:validateDoubleRange minimum="0.01" />
+					</p:inputText>
+				</p:column>
+				<p:column headerText="Total">
+					<p:outputLabel id="totItem" value="#{item.totalUnitario}">
+						<f:convertNumber pattern="R$ #,##0.00" />
+					</p:outputLabel>
+				</p:column>
+				<p:column width="15">
+					<h:inputHidden value="#{item.codigo}" />
+					<p:commandLink
+						action="#{pedidoBean.removerItem(indice)}"
+						immediate="true" ajax="false" title="Remover"
+						styleClass="ui-icon ui-icon-trash" />
+				</p:column>
+				<f:facet name="footer">
+					<p:commandButton action="#{pedidoBean.addItem()}"
+						ajax="false" value="Adicionar" icon="ui-icon-plus" />
+				</f:facet>
+			</p:dataTable>
+			<hr />
+			<p:commandButton value="Salvar" ajax="false"
+				action="#{pedidoBean.salvar()}" />
+			<p:commandButton value="Cancelar" ajax="false"
+				action="#{pedidoBean.voltarParaListagem()}" />
+		</h:form>
+	</p:panel>
+	<br />
+	<p:growl><p:autoUpdate /></p:growl>
+	<p:panel id="pnlTable" header="Pedidos">
+		<h:form>
+			<p:dataTable value="#{pedidoBean.pedidos}" var="pedido"
+				emptyMessage="Nenhum pedido cadastrado" 
+				rowKey="#{pedido.codigo}" selection="#{pedidoBean.pedido}"
+				selectionMode="single">
+				<p:column headerText="Código">
+					<p:outputLabel value="#{pedido.codigo}" />
+				</p:column>
+				<p:column headerText="Data">
+					<p:outputLabel value="#{pedido.data}" />
+				</p:column>
+				<p:column headerText="Cliente">
+					<p:outputLabel value="#{pedido.cliente.nome}" />
+				</p:column>
+				<p:column headerText="Total">
+					<p:outputLabel value="#{pedido.total}">
+						<f:convertNumber pattern="R$ #,##0.00" />
+					</p:outputLabel>
+				</p:column>
+				<f:facet name="footer">
+					<p:commandButton value="Novo" ajax="false"
+						action="#{pedidoBean.novo()}" />
+					<p:commandButton value="Alterar" ajax="false"
+						action="#{pedidoBean.alterar()}" />
+					<p:commandButton value="Remover" ajax="false"
+						action="#{pedidoBean.remover()}" />
+				</f:facet>
+			</p:dataTable>
+		</h:form>
+	</p:panel>
+</h:body>
+</html>
+
+
+
+
+
+
+
+

@@ -1,5 +1,6 @@
 package br.edu.utfpr.jsf.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
@@ -8,7 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Cliente {
+public class Cliente implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	@Id @GeneratedValue
 	private Integer codigo;

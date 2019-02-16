@@ -33,6 +33,10 @@
  			<redirect />
  		</navigation-case>
  	</navigation-rule>
+ 	
+ 	<lifecycle>
+ 		<phase-listener>br.edu.utfpr.jsf.util.LogPhaseListener</phase-listener>
+ 	</lifecycle>
 </faces-config>
 
 
