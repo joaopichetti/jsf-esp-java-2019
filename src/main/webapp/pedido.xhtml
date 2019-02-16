@@ -9,7 +9,9 @@
 <title>Pedidos</title>
 </h:head>
 <h:body>
-	<p:panel id="pnlForm" header="Cadastro de Pedidos">
+	<p:growl><p:autoUpdate /></p:growl>
+	<p:panel id="pnlForm" header="#{pedidoBean.tituloForm}"
+		visible="#{pedidoBean.mostrarForm()}">
 		<h:form>
 			<h:inputHidden value="#{pedidoBean.pedido.codigo}" />
 			<p:panelGrid>
@@ -29,7 +31,8 @@
 						<p:calendar id="data"
 							value="#{pedidoBean.pedido.data}"
 							required="true"
-							requiredMessage="Informe a data" />
+							requiredMessage="Informe a data"
+							pattern="dd/MM/yyyy" />
 						<p:message for="data" />
 					</p:column>
 				</p:row>
@@ -86,14 +89,20 @@
 						required="true"
 						requiredMessage="Informe a quantidade"
 						validatorMessage="Valor mínimo: 0,01">
-						<f:validateDoubleRange minimum="0.01" />	
+						<f:validateDoubleRange minimum="0.01" />
+						<p:ajax event="keyup" 
+							update="totItem @form:total" />
 					</p:inputText>
 				</p:column>
 				<p:column headerText="Valor unitário">
-					<p:inputText id="valorUnitario" required="true"
+					<p:inputText id="valorUnitario" 
+						value="#{item.valorUnitario}"
+						required="true"
 						requiredMessage="Informe o valor unitário"
 						validatorMessage="Valor mínimo: 0,01">
 						<f:validateDoubleRange minimum="0.01" />
+						<p:ajax event="keyup" 
+							update="totItem @form:total" />
 					</p:inputText>
 				</p:column>
 				<p:column headerText="Total">
@@ -105,29 +114,35 @@
 					<h:inputHidden value="#{item.codigo}" />
 					<p:commandLink
 						action="#{pedidoBean.removerItem(indice)}"
-						immediate="true" ajax="false" title="Remover"
+						immediate="true" title="Remover"
+						process="tblItens" update="tblItens"
 						styleClass="ui-icon ui-icon-trash" />
 				</p:column>
 				<f:facet name="footer">
 					<p:commandButton action="#{pedidoBean.addItem()}"
-						ajax="false" value="Adicionar" icon="ui-icon-plus" />
+						value="Adicionar" icon="ui-icon-plus"
+						process="tblItens" update="tblItens" />
 				</f:facet>
 			</p:dataTable>
 			<hr />
-			<p:commandButton value="Salvar" ajax="false"
+			<p:commandButton value="Salvar" process="@form"
+				update="pnlForm pnlTable"
 				action="#{pedidoBean.salvar()}" />
-			<p:commandButton value="Cancelar" ajax="false"
+			<p:commandButton value="Cancelar" process="@this"
+				update="pnlForm pnlTable"
 				action="#{pedidoBean.voltarParaListagem()}" />
 		</h:form>
 	</p:panel>
-	<br />
-	<p:growl><p:autoUpdate /></p:growl>
-	<p:panel id="pnlTable" header="Pedidos">
+	<p:panel id="pnlTable" header="Pedidos"
+		visible="#{!pedidoBean.mostrarForm()}">
 		<h:form>
 			<p:dataTable value="#{pedidoBean.pedidos}" var="pedido"
 				emptyMessage="Nenhum pedido cadastrado" 
 				rowKey="#{pedido.codigo}" selection="#{pedidoBean.pedido}"
 				selectionMode="single">
+				<p:ajax event="rowSelect" 
+					listener="#{pedidoBean.onRowSelect}"
+					update="@form" />
 				<p:column headerText="Código">
 					<p:outputLabel value="#{pedido.codigo}" />
 				</p:column>
@@ -143,16 +158,34 @@
 					</p:outputLabel>
 				</p:column>
 				<f:facet name="footer">
-					<p:commandButton value="Novo" ajax="false"
-						action="#{pedidoBean.novo()}" />
-					<p:commandButton value="Alterar" ajax="false"
-						action="#{pedidoBean.alterar()}" />
-					<p:commandButton value="Remover" ajax="false"
-						action="#{pedidoBean.remover()}" />
+					<p:commandButton value="Novo" process="@this"
+						update="pnlForm pnlTable"
+						action="#{pedidoBean.novo()}"
+						resetValues="true" />
+					<p:commandButton value="Alterar" process="@form"
+						update="pnlForm pnlTable"
+						action="#{pedidoBean.alterar()}"
+						disabled="#{!pedidoBean.pedidoSelecionado}"
+						resetValues="true" />
+					<p:commandButton value="Remover" process="@form"
+						update="pnlForm pnlTable"
+						action="#{pedidoBean.remover()}"
+						disabled="#{!pedidoBean.pedidoSelecionado}">
+						<p:confirm header="Atenção"
+							message="Deseja remover esse pedido?"
+							icon="ui-icon-alert" />
+					</p:commandButton>
 				</f:facet>
 			</p:dataTable>
 		</h:form>
 	</p:panel>
+	<!-- DIALOG DE CONFIRMAÇÃO -->
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+		<p:commandButton value="Sim" type="button"
+			styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		<p:commandButton value="Não" type="button"
+			styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	</p:confirmDialog>
 </h:body>
 </html>
 

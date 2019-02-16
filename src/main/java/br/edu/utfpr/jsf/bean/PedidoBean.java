@@ -6,6 +6,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.event.SelectEvent;
+
 import br.edu.utfpr.jsf.dao.DAO;
 import br.edu.utfpr.jsf.model.Cliente;
 import br.edu.utfpr.jsf.model.Pedido;
@@ -24,9 +26,12 @@ public class PedidoBean {
 	private DAO<Pedido> dao;
 	private DAO<Cliente> clienteDao;
 	private DAO<Produto> produtoDao;
+	private boolean pedidoSelecionado;
+	private Operacao operacao;
 	
 	@PostConstruct
 	public void inicializar() {
+		operacao = Operacao.LISTAR;
 		dao = new DAO<>(Pedido.class);
 		clienteDao = new DAO<>(Cliente.class);
 		produtoDao = new DAO<>(Produto.class);
@@ -65,6 +70,14 @@ public class PedidoBean {
 		this.produtos = produtos;
 	}
 
+	public boolean isPedidoSelecionado() {
+		return pedidoSelecionado;
+	}
+
+	public void setPedidoSelecionado(boolean pedidoSelecionado) {
+		this.pedidoSelecionado = pedidoSelecionado;
+	}
+
 	public void addItem() {
 		pedido.addItem(new PedidoItem());
 	}
@@ -72,6 +85,9 @@ public class PedidoBean {
 	public void alterar() {
 		if (pedido == null) {
 			FacesUtil.addMensagemErro("Selecione um pedido");
+		} else {
+			operacao = Operacao.EDITAR;
+			carregarLookups();
 		}
 	}
 	
@@ -87,6 +103,8 @@ public class PedidoBean {
 	public void novo() {
 		pedido = new Pedido();
 		carregarLookups();
+		pedidoSelecionado = false;
+		operacao = Operacao.INSERIR;
 	}
 	
 	public void remover() {
@@ -112,6 +130,7 @@ public class PedidoBean {
 			} else {
 				dao.update(pedido);
 			}
+			FacesUtil.addMensagemInfo("Pedido gravado com suceso!");
 			voltarParaListagem();
 			listar();
 		}
@@ -119,6 +138,22 @@ public class PedidoBean {
 	
 	public void voltarParaListagem() {
 		pedido = new Pedido();
+		pedidoSelecionado = false;
+		operacao = Operacao.LISTAR;
+	}
+	
+	public void onRowSelect(SelectEvent event) {
+		pedidoSelecionado = true;
+	}
+	
+	public String getTituloForm() {
+		return Operacao.EDITAR == operacao ?
+				"Alterar Pedido" :
+				"Novo Pedido";
+	}
+	
+	public boolean mostrarForm() {
+		return Operacao.LISTAR != operacao;
 	}
 
 }
