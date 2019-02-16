@@ -32,21 +32,94 @@
 				<p:column><p:outputLabel value="Nome" for="nome" /></p:column>
 				<p:column>
 					<p:inputText id="nome" 
-						value="#{clienteFormBean.cliente.nome}" />
+						value="#{clienteFormBean.cliente.nome}"
+						required="true" requiredMessage="Informe o nome"
+						validatorMessage="Tamanho: entre 2 e 60 caracteres">
+						<f:validateLength minimum="2" maximum="60" />	
+					</p:inputText>
+					<p:message for="nome" />
 				</p:column>
 			</p:row>
 			<p:row>
 				<p:column><p:outputLabel value="CPF" for="cpf" /></p:column>
 				<p:column>
 					<p:inputText id="cpf"
-						value="#{clienteFormBean.cliente.cpf}" />
+						value="#{clienteFormBean.cliente.cpf}"
+						placeholder="999.999.999-99"
+						validatorMessage="Tamanho máximo: 14 caracteres">
+						<f:validateLength maximum="14" />
+					</p:inputText>
+					<p:message for="cpf" />
 				</p:column>
 			</p:row>
 			<p:row>
 				<p:column><p:outputLabel value="RG" for="rg" /></p:column>
 				<p:column>
 					<p:inputText id="rg"
-						value="#{clienteFormBean.cliente.rg}" />
+						value="#{clienteFormBean.cliente.rg}"
+						validatorMessage="Tamanho máximo: 15 caracteres">
+						<f:validateLength maximum="15" />	
+					</p:inputText>
+					<p:message for="rg" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Telefone" for="telefone" />
+				</p:column>
+				<p:column>
+					<p:inputText id="telefone"
+						value="#{clienteFormBean.cliente.telefone}"
+						placeholder="(99) 99999-9999"
+						validatorMessage="Tamanho máximo: 15 caracteres"
+						maxlength="15">
+						<f:validateLength maximum="15" />
+					</p:inputText>
+					<p:message for="telefone" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Data de nascimento" 
+						id="dataNascimento" />
+				</p:column>
+				<p:column>
+					<p:inputText id="dataNascimento"
+						value="#{clienteFormBean.cliente.dataNascimento}"
+						placeholder="99/99/9999"
+						converterMessage="Data inválida">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:inputText>
+					<p:message for="dataNascimento" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Limite" for="limite" />
+				</p:column>
+				<p:column>
+					<p:inputText id="limite"
+						value="#{clienteFormBean.cliente.limite}"
+						converterMessage="Informe um número decimal">
+						<f:convertNumber pattern="#,##0.00" />	
+					</p:inputText>
+					<p:message for="limite" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Prazo para pagamento" 
+						for="prazoPag" />
+				</p:column>
+				<p:column>
+					<p:inputText id="prazoPag"
+						value="#{clienteFormBean.cliente.prazoPag}"
+						validatorMessage="Prazo máximo: 90 dias"
+						converterMessage="Informe um número inteiro">
+						<f:convertNumber integerOnly="true" />
+						<f:validateLongRange maximum="90" />	
+					</p:inputText>
+					<p:message for="prazoPag" />
 				</p:column>
 			</p:row>
 			<f:facet name="footer">

@@ -1,5 +1,7 @@
 package br.edu.utfpr.jsf.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,6 +14,10 @@ public class Cliente {
 	private String nome;
 	private String cpf;
 	private String rg;
+	private String telefone;
+	private Date dataNascimento;
+	private Double limite;
+	private Integer prazoPag;
 		
 	public Integer getCodigo() {
 		return codigo;
@@ -36,6 +42,31 @@ public class Cliente {
 	}
 	public void setRg(String rg) {
 		this.rg = rg;
+	}
+	
+	public String getTelefone() {
+		return telefone;
+	}
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+	public Date getDataNascimento() {
+		return dataNascimento;
+	}
+	public void setDataNascimento(Date dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+	public Double getLimite() {
+		return limite;
+	}
+	public void setLimite(Double limite) {
+		this.limite = limite;
+	}
+	public Integer getPrazoPag() {
+		return prazoPag;
+	}
+	public void setPrazoPag(Integer prazoPag) {
+		this.prazoPag = prazoPag;
 	}
 	@Override
 	public int hashCode() {

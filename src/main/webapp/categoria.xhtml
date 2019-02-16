@@ -1,0 +1,80 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Categorias</title>
+</h:head>
+<body>
+	<h:form>
+		<h:inputHidden value="#{categoriaBean.categoria.codigo}" />
+		<p:panelGrid>
+			<f:facet name="header">
+				<p:row>
+					<p:column colspan="2">
+						Cadastro de Categorias
+					</p:column>
+				</p:row>
+			</f:facet>
+			<p:row>	
+				<p:column>						
+					<p:outputLabel value="Código" />
+				</p:column>
+				<p:column>
+					<p:outputLabel value="#{categoriaBean.categoria.codigo}" />
+				</p:column>
+			</p:row>	
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Nome" for="nome" />
+				</p:column>
+				<p:column>
+					<p:inputText id="nome" value="#{categoriaBean.categoria.nome}" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Descrição" for="descricao" />
+				</p:column>
+				<p:column>
+					<p:inputText id="descricao" value="#{categoriaBean.categoria.descricao}" />
+				</p:column>
+			</p:row>			
+			<f:facet name="footer">
+				<p:row>
+					<p:column colspan="2">
+						<p:commandButton value="Salvar" ajax="false"
+							action="#{categoriaBean.salvar()}" />
+					</p:column>
+				</p:row>
+			</f:facet>
+		</p:panelGrid>
+	</h:form>
+	<br/>
+	<p:messages />
+	<h:form>
+		<p:dataTable value="#{categoriaBean.categorias}" var="categoria" 
+			emptyMessage="Nenhuma categoria cadastrada" 
+			rowKey="#{categoria.codigo}"
+			selection="#{categoriaBean.categoria}" selectionMode="single">
+			<p:column headerText="Código">
+				<p:outputLabel  value="#{categoria.codigo}"/>
+			</p:column>
+			<p:column headerText="Nome">
+				<p:outputLabel  value="#{categoria.nome}"/>
+			</p:column>
+			<p:column headerText="Descrição">
+				<p:outputLabel  value="#{categoria.descricao}"/>
+			</p:column>
+			<f:facet name="footer">
+				<p:commandButton value="Novo" ajax="false"
+					action="#{categoriaBean.novo()}" />
+				<p:commandButton value="Alterar" ajax="false" 
+					action="#{categoriaBean.alterar()}" />
+				<p:commandButton value="Remover" ajax="false"
+					action="#{categoriaBean.remover()}" />
+			</f:facet>
+		</p:dataTable>
+	</h:form>
+</body>
+</html>
