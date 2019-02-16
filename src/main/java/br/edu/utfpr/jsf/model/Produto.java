@@ -3,6 +3,7 @@ package br.edu.utfpr.jsf.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Produto {
@@ -10,7 +11,8 @@ public class Produto {
 	@Id @GeneratedValue
 	private Integer codigo;
 	private String nome;
-	private String categoria;	
+	@ManyToOne
+	private Categoria categoria;	
 	private Double preco;
 
 	public Integer getCodigo() {
@@ -29,11 +31,11 @@ public class Produto {
 		this.nome = nome;
 	}
 
-	public String getCategoria() {
+	public Categoria getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(String categoria) {
+	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
 
@@ -45,7 +47,6 @@ public class Produto {
 		this.preco = preco;
 	}
 
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -53,7 +54,6 @@ public class Produto {
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
 		return result;
 	}
-	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -71,5 +71,5 @@ public class Produto {
 			return false;
 		return true;
 	}
-	
+
 }

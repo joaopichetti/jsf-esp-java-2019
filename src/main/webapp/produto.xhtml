@@ -1,64 +1,98 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
-<h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Produtos</title>
-</h:head>
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head></h:head>
 <h:body>
 	<h:form id="form">
 		<h:inputHidden value="#{produtoBean.produto.codigo}" />
-		<p:panelGrid columns="2">
-			<p:outputLabel value="Código" />
-			<p:outputLabel value="#{produtoBean.produto.codigo}" />
-		
-			<p:outputLabel value="Nome" for="nome" />
-			<p:inputText id="nome" 
-				value="#{produtoBean.produto.nome}" />
-			
-			<p:outputLabel value="Categoria" for="categoria" />
-			<p:inputText id="categoria"
-				value="#{produtoBean.produto.categoria}" />
-			
-			<p:outputLabel value="Preço" for="preco" />
-			<p:inputText id="preco"
-				value="#{produtoBean.produto.preco}" />
-			
+		<p:panelGrid>
+			<f:facet name="header">
+				<p:row>
+					<p:column colspan="2">
+						Cadastro de Produtos		
+					</p:column>
+				</p:row>
+			</f:facet>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Código" />	
+				</p:column>
+				<p:column>
+					<p:outputLabel value="#{produtoBean.produto.codigo}" />	
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Nome" for="nome" />	
+				</p:column>
+				<p:column>
+					<p:inputText id="nome" value="#{produtoBean.produto.nome}"
+						required="true" requiredMessage="Informe o nome"
+						validatorMessage="Tamanho máximo: 40 caracteres">
+						<f:validateLength maximum="40" />
+					</p:inputText>
+					<p:message for="nome" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Categoria" for="categoria" />	
+				</p:column>
+				<p:column>
+					<p:selectOneMenu id="categoria" value="#{produtoBean.produto.categoria}"
+						converter="categoriaConverter">
+						<f:selectItem itemLabel="Selecione uma categoria" itemValue="" />
+						<f:selectItems value="#{produtoBean.categorias}" var="categoria"
+							itemLabel="#{categoria.nome}" itemValue="#{categoria}" />
+					</p:selectOneMenu>	
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Preço" for="preco" />	
+				</p:column>
+				<p:column>
+					<p:inputText id="preco" value="#{produtoBean.produto.preco}"
+						convertMessage="Preço inválido">
+						<f:convertNumber pattern="#,##0.00" />
+					</p:inputText>	
+				</p:column>
+			</p:row>
 			<f:facet name="footer">
-				<p:commandButton id="btnSalvar" value="Salvar"
-					ajax="false" 
-					action="#{produtoBean.salvar()}" />
+				<p:row>
+					<p:column colspan="2">
+						<p:commandButton id="btnSalvar" value="Salvar" ajax="false"
+							action="#{produtoBean.salvar()}" />
+					</p:column>
+				</p:row>
 			</f:facet>
 		</p:panelGrid>
-	</h:form>	
-	<br />
+	</h:form>
+	<br/>
 	<p:messages />
 	<h:form>
-		<p:dataTable value="#{produtoBean.produtos}" 
-			var="produto"
-			emptyMessage="Nenhum produto cadastrado"
-			rowKey="#{produto.codigo}"
-			selection="#{produtoBean.produto}"
+		<p:dataTable value="#{produtoBean.produtos}" var="produto" 
+			emptyMessage="Nenhum produto cadastrado" 
+			rowKey="#{produto.codigo}" selection="#{produtoBean.produto}" 
 			selectionMode="single">
 			<p:column headerText="Código">
-				<p:outputLabel value="#{produto.codigo}" />
+				<p:outputLabel value="#{produto.codigo}"/>
 			</p:column>
 			<p:column headerText="Nome">
-				<p:outputLabel value="#{produto.nome}" />
+				<p:outputLabel value="#{produto.nome}"/>
 			</p:column>
 			<p:column headerText="Categoria">
-				<p:outputLabel value="#{produto.categoria}" />
+				<p:outputLabel value="#{produto.categoria.nome}" />
 			</p:column>
 			<p:column headerText="Preço">
-				<p:outputLabel value="#{produto.preco}" />
+				<p:outputLabel value="#{produto.preco}"/>
 			</p:column>
 			<f:facet name="footer">
-				<p:commandButton value="Novo" ajax="false"
+				<p:commandButton value="Novo" ajax="false"  
 					action="#{produtoBean.novo()}" />
-				<p:commandButton value="Alterar" ajax="false"
+				<p:commandButton value="Alterar" ajax="false" 
 					action="#{produtoBean.alterar()}" />
 				<p:commandButton value="Remover" ajax="false"
 					action="#{produtoBean.remover()}" />
@@ -67,9 +101,3 @@
 	</h:form>
 </h:body>
 </html>
-
-
-
-
-
-
