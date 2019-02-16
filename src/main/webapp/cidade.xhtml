@@ -1,0 +1,53 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Cidades</title>
+</h:head>
+<body>
+	<h:form>
+		<h:inputHidden value="#{cidadeBean.cidade.codigo}" />
+		<p:panelGrid columns="2">
+			<f:facet name="header">Cadastro de Cidades</f:facet>
+			<p:outputLabel value="Código" />
+			<p:outputLabel value="#{cidadeBean.cidade.codigo}" />
+			<p:outputLabel value="Nome" for="nome" />
+			<p:inputText id="nome" value="#{cidadeBean.cidade.nome}" />
+			<p:outputLabel value="Sigla da UF" for="uf" />
+			<p:inputText id="uf" value="#{cidadeBean.cidade.uf}" />
+			<f:facet name="footer">
+				<p:commandButton value="Salvar" ajax="false"
+					action="#{cidadeBean.salvar()}" />
+			</f:facet>
+		</p:panelGrid>
+	</h:form>
+	<br />
+	<p:messages />
+	<h:form>
+		<p:dataTable value="#{cidadeBean.cidades}" var="cidade"
+			emptyMessage="Nenhuma cidade cadastrada" rowKey="#{cidade.codigo}"
+			selection="#{cidadeBean.cidade}" selectionMode="single">
+			<p:column headerText="Código">
+				<p:outputLabel value="#{cidade.codigo}" />
+			</p:column>
+			<p:column headerText="Nome">
+				<p:outputLabel value="#{cidade.nome}" />
+			</p:column>
+			<p:column headerText="Sigla da UF">
+				<p:outputLabel value="#{cidade.uf}" />
+			</p:column>
+			<f:facet name="footer">
+				<p:commandButton value="Novo" ajax="false"
+					action="#{cidadeBean.novo()}" />
+				<p:commandButton value="Alterar" ajax="false"
+					action="#{cidadeBean.alterar()}" />
+				<p:commandButton value="Remover" ajax="false"
+					action="#{cidadeBean.remover()}" />
+			</f:facet>
+		</p:dataTable>
+	</h:form>
+</body>
+</html>

@@ -9,6 +9,8 @@
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<class>br.edu.utfpr.jsf.model.Produto</class>
 		<class>br.edu.utfpr.jsf.model.Cliente</class>
+		<class>br.edu.utfpr.jsf.model.Categoria</class>
+		<class>br.edu.utfpr.jsf.model.Cidade</class>
 
 		<properties>
 			<!-- MYSQL -->
