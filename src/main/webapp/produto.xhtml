@@ -3,6 +3,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
+    xmlns:app="http://java.sun.com/jsf/composite/components"
     template="/resources/templates/base.xhtml">
     
 <ui:define name="titulo">Produtos</ui:define>
@@ -62,6 +63,15 @@
 					</p:inputText>	
 				</p:column>
 			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Ativo" for="ativo" />
+				</p:column>
+				<p:column>
+					<p:selectBooleanCheckbox id="ativo"
+						value="#{produtoBean.produto.ativo}" />
+				</p:column>
+			</p:row>
 			<f:facet name="footer">
 				<p:row>
 					<p:column colspan="2">
@@ -89,6 +99,10 @@
 			</p:column>
 			<p:column headerText="Preço">
 				<p:outputLabel value="#{produto.preco}"/>
+			</p:column>
+			<p:column headerText="Ativo">
+				<app:readonly-checkbox 
+					value="#{produto.ativo}" />
 			</p:column>
 			<f:facet name="footer">
 				<p:commandButton value="Novo" ajax="false"  

@@ -18,6 +18,7 @@ public class Produto implements Serializable {
 	@ManyToOne
 	private Categoria categoria;	
 	private Double preco;
+	private Boolean ativo;
 
 	public Integer getCodigo() {
 		return codigo;
@@ -49,6 +50,14 @@ public class Produto implements Serializable {
 
 	public void setPreco(Double preco) {
 		this.preco = preco;
+	}
+
+	public Boolean getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
 	}
 
 	@Override
