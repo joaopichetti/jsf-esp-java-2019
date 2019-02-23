@@ -1,24 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	template="/resources/templates/base.xhtml">
 
-<h:head>
-	<title>Página inicial</title>
-</h:head>
-<h:body>
-	<h1>Página inicial</h1>
-	<h:form>
-		<p:menu>
-			<p:submenu label="Cadastros">
-				<p:menuitem outcome="categoria" value="Categorias" />
-				<p:menuitem outcome="cidade" value="Cidades" />
-				<p:menuitem outcome="cliente-list" value="Clientes" />
-				<p:menuitem outcome="pedido" value="Pedidos" />
-				<p:menuitem outcome="produto" value="Produtos" />		
-			</p:submenu>
-		</p:menu>
-	</h:form>
-</h:body>
-</html>
+<ui:define name="titulo">Aplicação</ui:define>
+<ui:define name="conteudo">
+	<p:schedule value="#{homeBean.eventModel}" 
+		locale="pt"></p:schedule>
+</ui:define>
+
+</ui:composition>

@@ -1,11 +1,12 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
-<h:head>
-	<title>Categorias</title>
-</h:head>
-<body>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    template="/resources/templates/base.xhtml">
+ 
+<ui:define name="titulo">Categorias</ui:define>
+<ui:define name="conteudo">
 	<h:form>
 		<h:inputHidden value="#{categoriaBean.categoria.codigo}" />
 		<p:panelGrid>
@@ -60,7 +61,6 @@
 		</p:panelGrid>
 	</h:form>
 	<br/>
-	<p:messages />
 	<h:form>
 		<p:dataTable value="#{categoriaBean.categorias}" var="categoria" 
 			emptyMessage="Nenhuma categoria cadastrada" 
@@ -85,5 +85,5 @@
 			</f:facet>
 		</p:dataTable>
 	</h:form>
-</body>
-</html>
+</ui:define>
+</ui:composition>

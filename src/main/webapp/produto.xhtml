@@ -1,10 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
-<h:head></h:head>
-<h:body>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    template="/resources/templates/base.xhtml">
+    
+<ui:define name="titulo">Produtos</ui:define>
+<ui:define name="conteudo">
 	<h:form id="form">
 		<h:inputHidden value="#{produtoBean.produto.codigo}" />
 		<p:panelGrid>
@@ -71,7 +73,6 @@
 		</p:panelGrid>
 	</h:form>
 	<br/>
-	<p:messages />
 	<h:form>
 		<p:dataTable value="#{produtoBean.produtos}" var="produto" 
 			emptyMessage="Nenhum produto cadastrado" 
@@ -99,5 +100,6 @@
 			</f:facet>
 		</p:dataTable>
 	</h:form>
-</h:body>
-</html>
+</ui:define>
+
+</ui:composition>

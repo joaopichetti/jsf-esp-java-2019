@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- ALTERAR TÍTULO DA PÁGINA -->
+<title><ui:insert name="titulo"></ui:insert></title>
+<h:outputScript library="js" name="primefaces-pt.js" />
+</h:head>
+<h:body>
+	<p:layout fullPage="true">
+		<!-- TOPO -->
+		<p:layoutUnit position="north">
+			<ui:include src="cabecalho.xhtml" />
+		</p:layoutUnit>
+		<!-- MENU LATERAL ESQUERDO -->
+		<p:layoutUnit position="west" header="Menu"
+			size="250" collapsible="true">
+			<ui:include src="menu.xhtml" />
+		</p:layoutUnit>
+		<!-- CENTRO -->
+		<p:layoutUnit position="center">
+			<!-- CONTEÚDO DINÂMICO -->
+			<ui:insert name="conteudo"></ui:insert>
+		</p:layoutUnit>
+	</p:layout>	
+	<!-- MENSAGENS -->
+	<p:growl><p:autoUpdate /></p:growl>
+	<!-- CONFIRMAÇÃO -->
+	<p:confirmDialog global="true" showEffect="fade"	
+		hideEffect="explode">
+		<p:commandButton value="Sim" type="button"
+			styleClass="ui-confirmdialog-yes"
+			icon="ui-icon-check" />
+		<p:commandButton value="Não" type="button"
+			styleClass="ui-confirmdialog-no"
+			icon="ui-icon-close" />	
+	</p:confirmDialog>
+	<!-- EXIBE GIF EM REQUISIÇÕES AJAX -->
+	<p:ajaxStatus id="ajaxStatusPanel"
+		style="position: absolute; right: 3%; top: 90%;">
+		<f:facet name="start">
+			<h:graphicImage value="/resources/img/loading.gif" />
+		</f:facet>
+		<f:facet name="complete">
+			<h:outputText />
+		</f:facet>
+	</p:ajaxStatus>
+</h:body>
+</html>
+
+
+
+
+
+
