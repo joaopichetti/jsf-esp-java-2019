@@ -3,6 +3,8 @@ package br.edu.utfpr.jsf.util;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.PrimeFaces;
+
 public class FacesUtil {
 	
 	private static void addMensagem(FacesMessage.Severity tipo, 
@@ -30,6 +32,20 @@ public class FacesUtil {
 	
 	public static FacesMessage criarMensagemInfo(String mensagem) {
 		return criarMensagem(FacesMessage.SEVERITY_INFO, mensagem);
+	}
+	
+	private static void executarScriptPrimefaces(String comando) {
+		PrimeFaces.current().executeScript(comando);
+	}
+	
+	public static void abrirDialog(String widgetVar) {
+		executarScriptPrimefaces(String.format("PF('%s').show();", 
+				widgetVar));
+	}
+	
+	public static void fecharDialog(String widgetVar) {
+		executarScriptPrimefaces(String.format("PF('%s').hide();", 
+				widgetVar));
 	}
 
 }

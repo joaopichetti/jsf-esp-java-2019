@@ -11,6 +11,9 @@
 		<class>br.edu.utfpr.jsf.model.Cliente</class>
 		<class>br.edu.utfpr.jsf.model.Categoria</class>
 		<class>br.edu.utfpr.jsf.model.Cidade</class>
+		<class>br.edu.utfpr.jsf.model.Pedido</class>
+		<class>br.edu.utfpr.jsf.model.PedidoItem</class>
+		<class>br.edu.utfpr.jsf.model.Uf</class>
 
 		<properties>
 			<!-- MYSQL -->

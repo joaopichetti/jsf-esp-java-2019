@@ -1,0 +1,88 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:app="http://java.sun.com/jsf/composite/components"
+	template="/resources/templates/base.xhtml">
+	
+<ui:define name="titulo">UFs</ui:define>
+<ui:define name="conteudo">
+	<app:crud-dialog dialogId="dlgForm" widgetVar="dlgForm" 
+		onSaveAction="#{ufBean.salvar}" onCancelAction="#{ufBean.cancelar}" 
+		onSaveUpdate="@form frmTable" title="#{ufBean.tituloDialog}" 
+		onCancelUpdate="@form frmTable" showEffect="fade" hideEffect="slide">
+		<h:inputHidden value="#{ufBean.uf.codigo}" />
+		<p:panelGrid>
+			<p:row>
+				<p:column><p:outputLabel value="Código" /></p:column>
+				<p:column>
+					<p:outputLabel value="#{ufBean.uf.codigo}" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column><p:outputLabel value="Nome" for="nome" /></p:column>
+				<p:column>
+					<p:inputText id="nome" value="#{ufBean.uf.nome}"
+						required="true" requiredMessage="Campo obrigatório"
+						validatorMessage="Tamanho máximo: 30 caracteres">
+						<f:validateLength maximum="30" />
+					</p:inputText>
+					<p:message for="nome" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column><p:outputLabel value="Sigla" for="sigla" /></p:column>
+				<p:column>
+					<p:inputText id="sigla" value="#{ufBean.uf.sigla}"
+						required="true" requiredMessage="Campo obrigatório"
+						validatorMessage="Tamanho máximo: 2 caracteres">
+						<f:validateLength maximum="2" />
+					</p:inputText>
+					<p:message for="sigla" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column><p:outputLabel value="País" for="pais" /></p:column>
+				<p:column>
+					<p:inputText id="pais" value="#{ufBean.uf.pais}"
+						validatorMessage="Tamanho máximo: 30 caracteres">
+						<f:validateLength maximum="30" />
+					</p:inputText>
+					<p:message for="pais" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+	</app:crud-dialog>
+	<h:form id="frmTable">
+		<p:dataTable value="#{ufBean.ufs}" var="uf" rowKey="#{uf.codigo}"
+			selection="#{ufBean.uf}" selectionMode="single"
+			emptyMessage="Nenhuma UF cadastrada">
+			<f:facet name="header">UFs</f:facet>
+			<p:column headerText="Código">
+				<p:outputLabel value="#{uf.codigo}" />
+			</p:column>
+			<p:column headerText="Nome">
+				<p:outputLabel value="#{uf.nome}" />
+			</p:column>	
+			<p:column headerText="Sigla">
+				<p:outputLabel value="#{uf.sigla}" />
+			</p:column>	
+			<p:column headerText="País">
+				<p:outputLabel value="#{uf.pais}" />
+			</p:column>
+			<f:facet name="footer">
+				<p:commandButton value="Novo" action="#{ufBean.novo()}"
+					process="@this" update=":#{p:component('dlgForm')}" resetValues="true" />
+				<p:commandButton value="Alterar" action="#{ufBean.alterar()}"
+					process="@form" update=":#{p:component('dlgForm')}" resetValues="true" />
+				<p:commandButton value="Remover" action="#{ufBean.remover()}"
+					process="@form" update="@form">
+					<p:confirm header="Atenção" icon="ui-icon-alert"
+						 message="Deseja excluir essa UF?" />
+				</p:commandButton>
+			</f:facet>
+		</p:dataTable>
+	</h:form>
+</ui:define> 
+</ui:composition>
