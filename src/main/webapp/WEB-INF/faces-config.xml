@@ -37,7 +37,30 @@
  	<lifecycle>
  		<phase-listener>br.edu.utfpr.jsf.util.LogPhaseListener</phase-listener>
  	</lifecycle>
+ 	
+ 	<application>
+ 		<el-resolver>
+ 			org.springframework.web.jsf.el.SpringBeanFacesELResolver
+ 		</el-resolver>
+ 	</application>
 </faces-config>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

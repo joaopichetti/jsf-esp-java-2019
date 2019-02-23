@@ -1,11 +1,10 @@
 package br.edu.utfpr.jsf.bean;
 
-import javax.faces.bean.ManagedBean;
-
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleModel;
+import org.springframework.stereotype.Component;
 
-@ManagedBean
+@Component
 public class HomeBean {
 	
 	private ScheduleModel eventModel = new DefaultScheduleModel();
