@@ -4,7 +4,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:app="http://java.sun.com/jsf/composite/components"
       template="/resources/templates/base.xhtml">
-<ui:define name="titulo">UFs</ui:define>
+<ui:define name="titulo">#{msg['uf.listar']}</ui:define>
 <ui:define name="conteudo">
 	<app:crud-dialog dialogId="dlgForm" widgetVar="dlgForm" 
 		onSaveAction="#{ufBean.salvar}" onCancelAction="#{ufBean.cancelar}" 
@@ -13,38 +13,38 @@
 		<h:inputHidden value="#{ufBean.objeto.codigo}" />
 		<p:panelGrid>
 			<p:row>
-				<p:column><p:outputLabel value="Código" /></p:column>
+				<p:column><p:outputLabel value="#{msg['geral.codigo']}" /></p:column>
 				<p:column>
 					<p:outputLabel value="#{ufBean.objeto.codigo}" />
 				</p:column>
 			</p:row>
 			<p:row>
-				<p:column><p:outputLabel value="Nome" for="nome" /></p:column>
+				<p:column><p:outputLabel value="#{msg['geral.nome']}" for="nome" /></p:column>
 				<p:column>
 					<p:inputText id="nome" value="#{ufBean.objeto.nome}"
-						required="true" requiredMessage="Campo obrigatório"
-						validatorMessage="Tamanho máximo: 30 caracteres">
+						required="true" requiredMessage="#{msg['uf.nome.obrigatorio']}"
+						validatorMessage="#{msg['uf.nome.tamanho']}">
 						<f:validateLength maximum="30" />
 					</p:inputText>
 					<p:message for="nome" />
 				</p:column>
 			</p:row>
 			<p:row>
-				<p:column><p:outputLabel value="Sigla" for="sigla" /></p:column>
+				<p:column><p:outputLabel value="#{msg['uf.sigla']}" for="sigla" /></p:column>
 				<p:column>
 					<p:inputText id="sigla" value="#{ufBean.objeto.sigla}"
-						required="true" requiredMessage="Campo obrigatório"
-						validatorMessage="Tamanho máximo: 2 caracteres">
+						required="true" requiredMessage="#{msg['uf.sigla.obrigatoria']}"
+						validatorMessage="#{msg['uf.sigla.tamanho']}">
 						<f:validateLength maximum="2" />
 					</p:inputText>
 					<p:message for="sigla" />
 				</p:column>
 			</p:row>
 			<p:row>
-				<p:column><p:outputLabel value="País" for="pais" /></p:column>
+				<p:column><p:outputLabel value="#{msg['uf.pais']}" for="pais" /></p:column>
 				<p:column>
 					<p:inputText id="pais" value="#{ufBean.objeto.pais}"
-						validatorMessage="Tamanho máximo: 30 caracteres">
+						validatorMessage="#{msg['uf.pais.tamanho']}">
 						<f:validateLength maximum="30" />
 					</p:inputText>
 					<p:message for="pais" />
@@ -54,37 +54,37 @@
 	</app:crud-dialog>
 	<h:form id="frmTable">
 		<p:dataTable value="#{ufBean.lista}" 
-			var="uf" emptyMessage="Nenhum país cadastrado" 
+			var="uf" emptyMessage="#{msg['uf.lista_vazia']}" 
 			rowKey="#{uf.codigo}" selectionMode="single"
 			selection="#{ufBean.objeto}">
-			<f:facet name="header">UFs</f:facet>
+			<f:facet name="header">#{msg['uf.listar']}</f:facet>
 			<p:ajax event="rowSelect" update="@form" 
 				listener="#{ufBean.onRowSelect}" />
-			<p:column headerText="Código">
+			<p:column headerText="#{msg['geral.codigo']}">
 				<p:outputLabel value="#{uf.codigo}" />
 			</p:column>
-			<p:column headerText="Nome">
+			<p:column headerText="#{msg['geral.nome']}">
 				<p:outputLabel value="#{uf.nome}" />
 			</p:column>	
-			<p:column headerText="Sigla">
+			<p:column headerText="#{msg['uf.sigla']}">
 				<p:outputLabel value="#{uf.sigla}" />
 			</p:column>	
-			<p:column headerText="País">
+			<p:column headerText="#{msg['uf.pais']}">
 				<p:outputLabel value="#{uf.pais}" />
 			</p:column>
 			<f:facet name="footer">
-				<p:commandButton value="Novo" process="@this"
+				<p:commandButton value="#{msg['geral.novo']}" process="@this"
 					update=":#{p:component('dlgForm')}" resetValues="true"
 					action="#{ufBean.novo()}" />
-				<p:commandButton value="Alterar" process="@form" 
+				<p:commandButton value="#{msg['geral.alterar']}" process="@form" 
 					update=":#{p:component('dlgForm')}" resetValues="true"
 					disabled="#{!ufBean.registroSelecionado}"
 					action="#{ufBean.alterar()}" />
-				<p:commandButton value="Remover" process="@form"
+				<p:commandButton value="#{msg['geral.remover']}" process="@form"
 					update="@form" disabled="#{!ufBean.registroSelecionado}"
 					action="#{ufBean.remover()}">
-					<p:confirm header="Atenção" 
-						message="Deseja remover essa UF?"
+					<p:confirm header="#{msg['geral.atencao']}" 
+						message="#{msg['uf.remover.confirmar']}"
 						icon="ui-icon-alert" />
 				</p:commandButton>
 			</f:facet>

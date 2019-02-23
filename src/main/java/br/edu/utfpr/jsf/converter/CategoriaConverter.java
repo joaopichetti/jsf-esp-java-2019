@@ -11,30 +11,30 @@ import org.springframework.stereotype.Component;
 import br.edu.utfpr.jsf.model.Categoria;
 import br.edu.utfpr.jsf.repository.CategoriaRepository;
 import br.edu.utfpr.jsf.util.FacesUtil;
+import br.edu.utfpr.jsf.util.MessageUtil;
 
 @Component
 public class CategoriaConverter implements Converter {
 
 	@Autowired
 	private CategoriaRepository repository;
+	@Autowired
+	private MessageUtil messageUtil;
 
 	@Override
-	public Object getAsObject(FacesContext context, UIComponent component, 
-		String value) {
+	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		if (value == null || value.isEmpty()) {
 			return null;
 		}
 		try {
 			return repository.findById(Integer.parseInt(value)).orElse(null);
 		} catch (Exception ex) {
-			throw new ConverterException(
-					FacesUtil.criarMensagemErro("Categoria inválida"));
+			throw new ConverterException(FacesUtil.criarMensagemErro(messageUtil.getMessage("categoria.invalida")));
 		}
 	}
 
 	@Override
-	public String getAsString(FacesContext context, UIComponent component, 
-		Object value) {
+	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value instanceof Categoria) {
 			Categoria categoria = (Categoria) value;
 			return String.valueOf(categoria.getCodigo());

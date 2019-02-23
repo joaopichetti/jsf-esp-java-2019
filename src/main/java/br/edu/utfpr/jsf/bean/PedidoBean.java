@@ -18,14 +18,14 @@ import br.edu.utfpr.jsf.util.FacesUtil;
 @Component
 @Scope("view")
 public class PedidoBean extends AbstractBean<Pedido, PedidoRepository> {
-	
+
 	private List<Cliente> clientes;
 	private List<Produto> produtos;
 	@Autowired
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private ProdutoRepository produtoRepository;
-	
+
 	public PedidoBean() {
 		super(Pedido.class);
 	}
@@ -51,33 +51,22 @@ public class PedidoBean extends AbstractBean<Pedido, PedidoRepository> {
 		clientes = clienteRepository.findAll();
 		produtos = produtoRepository.findAll();
 	}
-	
+
 	public void addItem() {
 		getObjeto().addItem(new PedidoItem());
 	}
-	
+
 	public void removerItem(int indice) {
 		getObjeto().removerItem(indice);
 	}
-	
+
 	@Override
 	public void salvar() {
 		if (getObjeto().getItens() == null || getObjeto().getItens().isEmpty()) {
-			FacesUtil.addMensagemErro("Informe, ao menos, um produto");
+			FacesUtil.addMensagemErro(messageUtil.getMessage("pedido.itens.lista_vazia"));
 		} else {
 			super.salvar();
 		}
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-

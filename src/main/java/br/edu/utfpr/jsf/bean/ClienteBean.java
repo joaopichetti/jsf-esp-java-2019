@@ -19,11 +19,11 @@ import br.edu.utfpr.jsf.util.FacesUtil;
 @Component
 @Scope("view")
 public class ClienteBean extends AbstractBean<Cliente, ClienteRepository> {
-	
+
 	@Autowired
 	private CidadeRepository cidadeRepository;
 	private List<Cidade> cidades;
-	
+
 	public ClienteBean() {
 		super(Cliente.class);
 	}
@@ -35,30 +35,18 @@ public class ClienteBean extends AbstractBean<Cliente, ClienteRepository> {
 	public void setCidades(List<Cidade> cidades) {
 		this.cidades = cidades;
 	}
-	
+
 	@Override
 	protected void carregarLookups() {
 		cidades = cidadeRepository.findAll();
 	}
-	
-	public void telefoneValido(FacesContext context, UIComponent component,
-			Object value) throws ValidatorException {
+
+	public void telefoneValido(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 		final String pattern = "\\(?\\d{2}\\)? ?9?\\d{4}-?\\d{4}";
-		if (value != null && !value.toString().isEmpty() &&
-				!value.toString().matches(pattern)) {
+		if (value != null && !value.toString().isEmpty() && !value.toString().matches(pattern)) {
 			throw new ValidatorException(
-					FacesUtil.criarMensagemErro("Telefone inválido"));
+					FacesUtil.criarMensagemErro(messageUtil.getMessage("cliente.telefone.invalido")));
 		}
 	}
 
 }
-
-
-
-
-
-
-
-
-
-

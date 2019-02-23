@@ -1,24 +1,19 @@
-<ui:fragment xmlns="http://www.w3.org/1999/xhtml" 
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+<ui:fragment xmlns:ui="http://java.sun.com/jsf/facelets"
+			 xmlns:f="http://java.sun.com/jsf/core"
+			 xmlns:h="http://java.sun.com/jsf/html"
+			 xmlns:p="http://primefaces.org/ui">
 	<h:form>
 		<p:menubar>
 			<p:menuitem>
-				<p:link outcome="index" title="Home">
-					<h:graphicImage value="/resources/img/logo.png"
-						width="81" height="30"
-						style="margin: 10px;" />
-				</p:link>	
+				<p:link outcome="index" title="#{msg['geral.inicial']}">
+					<h:graphicImage value="/resources/img/logo.png" 
+						width="81" height="30" style="margin: 10px;" />
+				</p:link>
 			</p:menuitem>
 			<f:facet name="options">
-				<p:selectOneMenu value="#{sessionBean.theme}"
-					onchange="submit();">
-					<f:selectItems value="#{sessionBean.themes}"
-						var="theme"
-						itemLabel="#{theme.label}"
-						itemValue="#{theme.value}" />
+				<p:selectOneMenu value="#{sessionBean.theme}" onchange="submit();">				 -->
+					<f:selectItems value="#{sessionBean.themes}" var="theme"
+						itemLabel="#{theme.label}" itemValue="#{theme.value}" />
 				</p:selectOneMenu>
 			</f:facet>
 		</p:menubar>

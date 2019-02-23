@@ -4,7 +4,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:app="http://java.sun.com/jsf/composite/components"
       template="/resources/templates/base.xhtml">
-<ui:define name="titulo">Cidades</ui:define>
+<ui:define name="titulo">#{msg['cidade.listar']}</ui:define>
 <ui:define name="conteudo">
 	<app:crud-dialog dialogId="dlgForm" widgetVar="dlgForm" 
 		onSaveAction="#{cidadeBean.salvar}" onCancelAction="#{cidadeBean.cancelar}" 
@@ -12,46 +12,46 @@
 		onCancelUpdate="@form frmTable" showEffect="fade" hideEffect="slide">
 		<h:inputHidden value="#{cidadeBean.objeto.codigo}" />
 		<p:panelGrid columns="2">							
-			<p:outputLabel value="Código" />
+			<p:outputLabel value="#{msg['geral.codigo']}" />
 			<p:outputLabel value="#{cidadeBean.objeto.codigo}" />	
 							
-			<p:outputLabel value="Nome" for="nome" />
+			<p:outputLabel value="#{msg['geral.nome']}" for="nome" />
 			<p:inputText id="nome" value="#{cidadeBean.objeto.nome}" />
 				
-			<p:outputLabel value="Sigla da UF" for="uf"/>
+			<p:outputLabel value="#{msg['cidade.uf']}" for="uf"/>
 			<p:inputText id="uf" value="#{cidadeBean.objeto.uf}" />
 		</p:panelGrid>
 	</app:crud-dialog>
 	<h:form id="frmTable">
 		<p:dataTable id="dataTable" value="#{cidadeBean.lista}" 
-			var="cidade" emptyMessage="Nenhuma cidade cadastrada" 
+			var="cidade" emptyMessage="#{msg['cidade.lista_vazia']}" 
 			rowKey="#{cidade.codigo}" selectionMode="single"
 			selection="#{cidadeBean.objeto}">
-			<f:facet name="header">Cidades</f:facet>
+			<f:facet name="header">#{msg['cidade.listar']}</f:facet>
 			<p:ajax event="rowSelect" update="@form" 
 				listener="#{cidadeBean.onRowSelect}" />
-			<p:column headerText="Código">
+			<p:column headerText="#{msg['geral.codigo']}">
 				<p:outputLabel  value="#{cidade.codigo}"/>
 			</p:column>
-			<p:column headerText="Nome">
+			<p:column headerText="#{msg['geral.nome']}">
 				<p:outputLabel  value="#{cidade.nome}"/>
 			</p:column>
-			<p:column headerText="Sigla da UF">
+			<p:column headerText="#{msg['cidade.uf']}">
 				<p:outputLabel  value="#{cidade.uf}"/>
 			</p:column>
 			<f:facet name="footer">
-				<p:commandButton value="Novo" process="@this"
+				<p:commandButton value="#{msg['geral.novo']}" process="@this"
 					update=":#{p:component('dlgForm')}" resetValues="true"
 					action="#{cidadeBean.novo()}" />
-				<p:commandButton value="Alterar" process="@form" 
+				<p:commandButton value="#{msg['geral.alterar']}" process="@form" 
 					update=":#{p:component('dlgForm')}" resetValues="true"
 					disabled="#{!cidadeBean.registroSelecionado}"
 					action="#{cidadeBean.alterar()}" />
-				<p:commandButton value="Remover" process="@form"
+				<p:commandButton value="#{msg['geral.remover']}" process="@form"
 					update="@form" disabled="#{!cidadeBean.registroSelecionado}"
 					action="#{cidadeBean.remover()}">
-					<p:confirm header="Atenção" 
-						message="Deseja remover essa cidade?"
+					<p:confirm header="#{msg['geral.atencao']}" 
+						message="#{msg['cidade.remover.confirmar']}"
 						icon="ui-icon-alert" />
 				</p:commandButton>
 			</f:facet>

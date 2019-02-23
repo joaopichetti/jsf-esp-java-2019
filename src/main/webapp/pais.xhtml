@@ -4,7 +4,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:app="http://java.sun.com/jsf/composite/components"
       template="/resources/templates/base.xhtml">
-<ui:define name="titulo">Países</ui:define>
+<ui:define name="titulo">#{msg['pais.listar']}</ui:define>
 <ui:define name="conteudo">
 	<app:crud-dialog dialogId="dlgForm" widgetVar="dlgForm" 
 		onSaveAction="#{paisBean.salvar}" onCancelAction="#{paisBean.cancelar}" 
@@ -13,17 +13,17 @@
 		<h:inputHidden value="#{paisBean.objeto.codigo}" />
 		<p:panelGrid>
 			<p:row>
-				<p:column><p:outputLabel value="Código" /></p:column>
+				<p:column><p:outputLabel value="#{msg['geral.codigo']}" /></p:column>
 				<p:column>
 					<p:outputLabel value="#{paisBean.objeto.codigo}" />
 				</p:column>
 			</p:row>
 			<p:row>
-				<p:column><p:outputLabel value="Nome" for="nome" /></p:column>
+				<p:column><p:outputLabel value="#{msg['geral.nome']}" for="nome" /></p:column>
 				<p:column>
 					<p:inputText id="nome" value="#{paisBean.objeto.nome}"
-						required="true" requiredMessage="Informe o nome"
-						validatorMessage="Tamanho máximo: 40 caracteres">
+						required="true" requiredMessage="#{msg['pais.nome.obrigatorio']}"
+						validatorMessage="#{msg['pais.nome.tamanho']}">
 						<f:validateLength maximum="40" />
 					</p:inputText>
 					<p:message for="nome" />
@@ -33,31 +33,31 @@
 	</app:crud-dialog>
 	<h:form id="frmTable">
 		<p:dataTable value="#{paisBean.lista}" 
-			var="pais" emptyMessage="Nenhum país cadastrado" 
+			var="pais" emptyMessage="#{msg['pais.lista_vazia']}" 
 			rowKey="#{pais.codigo}" selectionMode="single"
 			selection="#{paisBean.objeto}">
-			<f:facet name="header">Países</f:facet>
+			<f:facet name="header">#{msg['pais.listar']}</f:facet>
 			<p:ajax event="rowSelect" update="@form" 
 				listener="#{paisBean.onRowSelect}" />
-			<p:column headerText="Código">
+			<p:column headerText="#{msg['geral.codigo']}">
 				<p:outputLabel value="#{pais.codigo}" />
 			</p:column>
-			<p:column headerText="Nome">
+			<p:column headerText="#{msg['geral.nome']}">
 				<p:outputLabel value="#{pais.nome}" />
 			</p:column>
 			<f:facet name="footer">
-				<p:commandButton value="Novo" process="@this"
+				<p:commandButton value="#{msg['geral.novo']}" process="@this"
 					update=":#{p:component('dlgForm')}" resetValues="true"
 					action="#{paisBean.novo()}" />
-				<p:commandButton value="Alterar" process="@form" 
+				<p:commandButton value="#{msg['geral.alterar']}" process="@form" 
 					update=":#{p:component('dlgForm')}" resetValues="true"
 					disabled="#{!paisBean.registroSelecionado}"
 					action="#{paisBean.alterar()}" />
-				<p:commandButton value="Remover" process="@form"
+				<p:commandButton value="#{msg['geral.remover']}" process="@form"
 					update="@form" disabled="#{!paisBean.registroSelecionado}"
 					action="#{paisBean.remover()}">
-					<p:confirm header="Atenção" 
-						message="Deseja remover esse país?"
+					<p:confirm header="#{msg['geral.atencao']}" 
+						message="#{msg['pais.remover.confirmar']}"
 						icon="ui-icon-alert" />
 				</p:commandButton>
 			</f:facet>

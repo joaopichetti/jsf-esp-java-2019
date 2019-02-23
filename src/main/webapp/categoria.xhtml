@@ -4,7 +4,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:app="http://java.sun.com/jsf/composite/components"
       template="/resources/templates/base.xhtml">
-<ui:define name="titulo">Categorias</ui:define>
+<ui:define name="titulo">#{msg['categoria.listar']}</ui:define>
 <ui:define name="conteudo">
 	<app:crud-dialog dialogId="dlgForm" widgetVar="dlgForm" 
 		onSaveAction="#{categoriaBean.salvar}" onCancelAction="#{categoriaBean.cancelar}" 
@@ -14,7 +14,7 @@
 		<p:panelGrid>
 			<p:row>	
 				<p:column>						
-					<p:outputLabel value="Código" />
+					<p:outputLabel value="#{msg['geral.codigo']}" />
 				</p:column>
 				<p:column>
 					<p:outputLabel value="#{categoriaBean.objeto.codigo}" />
@@ -22,12 +22,12 @@
 			</p:row>	
 			<p:row>
 				<p:column>
-					<p:outputLabel value="Nome" for="nome" />
+					<p:outputLabel value="#{msg['geral.nome']}" for="nome" />
 				</p:column>
 				<p:column>
 					<p:inputText id="nome" value="#{categoriaBean.objeto.nome}"
-						required="true" requiredMessage="Informe o nome"
-						validatorMessage="Tamanho máximo: 30 caracteres">
+						required="true" requiredMessage="#{msg['categoria.nome.obrigatorio']}"
+						validatorMessage="#{msg['categoria.nome.tamanho']}">
 						<f:validateLength maximum="30" />
 					</p:inputText>
 					<p:message for="nome" />
@@ -35,11 +35,11 @@
 			</p:row>
 			<p:row>
 				<p:column>
-					<p:outputLabel value="Descrição" for="descricao" />
+					<p:outputLabel value="#{msg['categoria.descricao']}" for="descricao" />
 				</p:column>
 				<p:column>
 					<p:inputText id="descricao" value="#{categoriaBean.objeto.descricao}"
-						validatorMessage="Tamanho máximo: 100 caracteres">
+						validatorMessage="#{msg['categoria.descricao.tamanho']}">
 						<f:validateLength maximum="100" />
 					</p:inputText>
 					<p:message for="descricao" />
@@ -49,34 +49,34 @@
 	</app:crud-dialog>
 	<h:form id="frmTable">
 		<p:dataTable id="dataTable" value="#{categoriaBean.lista}" 
-			var="categoria" emptyMessage="Nenhuma categoria cadastrada" 
+			var="categoria" emptyMessage="#{msg['categoria.lista_vazia']}" 
 			rowKey="#{categoria.codigo}" selectionMode="single"
 			selection="#{categoriaBean.objeto}">
-			<f:facet name="header">Categorias</f:facet>
+			<f:facet name="header">#{msg['categoria.listar']}</f:facet>
 			<p:ajax event="rowSelect" update="@form" 
 				listener="#{categoriaBean.onRowSelect}" />
-			<p:column headerText="Código">
+			<p:column headerText="#{msg['geral.codigo']}">
 				<p:outputLabel  value="#{categoria.codigo}" />
 			</p:column>
-			<p:column headerText="Nome">
+			<p:column headerText="#{msg['geral.nome']}">
 				<p:outputLabel  value="#{categoria.nome}" />
 			</p:column>
-			<p:column headerText="Descrição">
+			<p:column headerText="#{msg['categoria.descricao']}">
 				<p:outputLabel  value="#{categoria.descricao}" />
 			</p:column>
 			<f:facet name="footer">
-				<p:commandButton value="Novo" process="@this"
+				<p:commandButton value="#{msg['geral.novo']}" process="@this"
 					update=":#{p:component('dlgForm')}" resetValues="true"
 					action="#{categoriaBean.novo()}" />
-				<p:commandButton value="Alterar" process="@form" 
+				<p:commandButton value="#{msg['geral.alterar']}" process="@form" 
 					update=":#{p:component('dlgForm')}" resetValues="true"
 					disabled="#{!categoriaBean.registroSelecionado}"
 					action="#{categoriaBean.alterar()}" />
-				<p:commandButton value="Remover" process="@form"
+				<p:commandButton value="#{msg['geral.remover']}" process="@form"
 					update="@form" disabled="#{!categoriaBean.registroSelecionado}"
 					action="#{categoriaBean.remover()}">
-					<p:confirm header="Atenção" 
-						message="Deseja remover essa categoria?"
+					<p:confirm header="#{msg['geral.atencao']}" 
+						message="#{msg['categoria.remover.confirmar']}"
 						icon="ui-icon-alert" />
 				</p:commandButton>
 			</f:facet>

@@ -4,7 +4,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:app="http://java.sun.com/jsf/composite/components"
       template="/resources/templates/base.xhtml">
-<ui:define name="titulo">Produtos</ui:define>
+<ui:define name="titulo">#{msg['produto.listar']}</ui:define>
 <ui:define name="conteudo">
 	<app:crud-dialog dialogId="dlgForm" widgetVar="dlgForm" 
 		onSaveAction="#{produtoBean.salvar}" onCancelAction="#{produtoBean.cancelar}" 
@@ -14,7 +14,7 @@
 		<p:panelGrid>
 			<p:row>
 				<p:column>
-					<p:outputLabel value="Código" />	
+					<p:outputLabel value="#{msg['geral.codigo']}" />	
 				</p:column>
 				<p:column>
 					<p:outputLabel value="#{produtoBean.objeto.codigo}" />	
@@ -22,12 +22,12 @@
 			</p:row>
 			<p:row>
 				<p:column>
-					<p:outputLabel value="Nome" for="nome" />	
+					<p:outputLabel value="#{msg['geral.nome']}" for="nome" />	
 				</p:column>
 				<p:column>
 					<p:inputText id="nome" value="#{produtoBean.objeto.nome}"
-						required="true" requiredMessage="Informe o nome"
-						validatorMessage="Tamanho máximo: 40 caracteres">
+						required="true" requiredMessage="#{msg['produto.nome.obrigatorio']}"
+						validatorMessage="#{msg['produto.nome.tamanho']}">
 						<f:validateLength maximum="40" />
 					</p:inputText>
 					<p:message for="nome" />
@@ -35,12 +35,12 @@
 			</p:row>
 			<p:row>
 				<p:column>
-					<p:outputLabel value="Categoria" for="categoria" />	
+					<p:outputLabel value="#{msg['produto.categoria']}" for="categoria" />	
 				</p:column>
 				<p:column>
 					<p:selectOneMenu id="categoria" value="#{produtoBean.objeto.categoria}"
 						converter="#{categoriaConverter}">
-						<f:selectItem itemLabel="Selecione uma categoria" itemValue="" />
+						<f:selectItem itemLabel="#{msg['produto.categoria.selecione']}" itemValue="" />
 						<f:selectItems value="#{produtoBean.categorias}" var="categoria"
 							itemLabel="#{categoria.nome}" itemValue="#{categoria}" />
 					</p:selectOneMenu>	
@@ -48,18 +48,18 @@
 			</p:row>
 			<p:row>
 				<p:column>
-					<p:outputLabel value="Preço" for="preco" />	
+					<p:outputLabel value="#{msg['produto.preco']}" for="preco" />	
 				</p:column>
 				<p:column>
 					<p:inputText id="preco" value="#{produtoBean.objeto.preco}"
-						convertMessage="Preço inválido">
+						convertMessage="#{msg['produto.preco.invalido']}">
 						<f:convertNumber pattern="#,##0.00" />
 					</p:inputText>	
 				</p:column>
 			</p:row>
 			<p:row>
 				<p:column>
-					<p:outputLabel value="Ativo" for="ativo" />
+					<p:outputLabel value="#{msg['produto.ativo']}" for="ativo" />
 				</p:column>
 				<p:column>
 					<p:selectBooleanCheckbox id="ativo" 
@@ -70,40 +70,40 @@
 	</app:crud-dialog>
 	<h:form id="frmTable">
 		<p:dataTable id="dataTable" value="#{produtoBean.lista}" 
-			var="produto" emptyMessage="Nenhum produto cadastrado" 
+			var="produto" emptyMessage="#{msg['produto.lista_vazia']}" 
 			rowKey="#{produto.codigo}" selectionMode="single"
 			selection="#{produtoBean.objeto}">
-			<f:facet name="header">Produtos</f:facet>
+			<f:facet name="header">#{msg['produto.listar']}</f:facet>
 			<p:ajax event="rowSelect" update="@form" 
 				listener="#{produtoBean.onRowSelect}" />
-			<p:column headerText="Código">
+			<p:column headerText="#{msg['geral.codigo']}">
 				<p:outputLabel value="#{produto.codigo}"/>
 			</p:column>
-			<p:column headerText="Nome">
+			<p:column headerText="#{msg['geral.nome']}">
 				<p:outputLabel value="#{produto.nome}"/>
 			</p:column>
-			<p:column headerText="Categoria">
+			<p:column headerText="#{msg['produto.categoria']}">
 				<p:outputLabel value="#{produto.categoria.nome}" />
 			</p:column>
-			<p:column headerText="Preço">
+			<p:column headerText="#{msg['produto.preco']}">
 				<p:outputLabel value="#{produto.preco}"/>
 			</p:column>
-			<p:column headerText="Ativo">
+			<p:column headerText="#{msg['produto.ativo']}">
 				<app:readonly-checkbox value="#{produto.ativo}" />
 			</p:column>
 			<f:facet name="footer">
-				<p:commandButton value="Novo" process="@this"
+				<p:commandButton value="#{msg['geral.novo']}" process="@this"
 					update=":#{p:component('dlgForm')}" resetValues="true"
 					action="#{produtoBean.novo()}" />
-				<p:commandButton value="Alterar" process="@form" 
+				<p:commandButton value="#{msg['geral.alterar']}" process="@form" 
 					update=":#{p:component('dlgForm')}" resetValues="true"
 					disabled="#{!produtoBean.registroSelecionado}"
 					action="#{produtoBean.alterar()}" />
-				<p:commandButton value="Remover" process="@form"
+				<p:commandButton value="#{msg['geral.remover']}" process="@form"
 					update="@form" disabled="#{!produtoBean.registroSelecionado}"
 					action="#{produtoBean.remover()}">
-					<p:confirm header="Atenção" 
-						message="Deseja remover esse produto?"
+					<p:confirm header="#{msg['geral.atencao']}" 
+						message="#{msg['produto.remover.confirmar']}"
 						icon="ui-icon-alert" />
 				</p:commandButton>
 			</f:facet>

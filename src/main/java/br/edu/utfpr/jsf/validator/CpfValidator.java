@@ -5,33 +5,33 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.edu.utfpr.jsf.util.FacesUtil;
+import br.edu.utfpr.jsf.util.MessageUtil;
 
 @Component
 public class CpfValidator implements Validator {
 
+	@Autowired
+	private MessageUtil messageUtil;
+
 	@Override
-	public void validate(FacesContext context, UIComponent component, 
-			Object value) throws ValidatorException {
-		if (value != null && !value.toString().isEmpty() &&
-				!cpfValido(value.toString())) {
-			throw new ValidatorException(
-					FacesUtil.criarMensagemErro("CPF inválido"));
+	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+		if (value != null && !value.toString().isEmpty() && !cpfValido(value.toString())) {
+			throw new ValidatorException(FacesUtil.criarMensagemErro(messageUtil.getMessage("cliente.cpf.invalido")));
 		}
 	}
-	
+
 	private boolean cpfValido(String cpf) {
 		cpf = cpf.replaceAll("\\.", "").replaceAll("-", "");
-		
+
 		// considera-se erro CPF's formados por uma sequencia de numeros iguais
-		if (cpf.equals("00000000000") || cpf.equals("11111111111") || 
-				cpf.equals("22222222222") || cpf.equals("33333333333") || 
-				cpf.equals("44444444444") || cpf.equals("55555555555") || 
-				cpf.equals("66666666666") || cpf.equals("77777777777") || 
-				cpf.equals("88888888888") || cpf.equals("99999999999") || 
-				cpf.length() != 11) {
+		if (cpf.equals("00000000000") || cpf.equals("11111111111") || cpf.equals("22222222222")
+				|| cpf.equals("33333333333") || cpf.equals("44444444444") || cpf.equals("55555555555")
+				|| cpf.equals("66666666666") || cpf.equals("77777777777") || cpf.equals("88888888888")
+				|| cpf.equals("99999999999") || cpf.length() != 11) {
 			return false;
 		}
 

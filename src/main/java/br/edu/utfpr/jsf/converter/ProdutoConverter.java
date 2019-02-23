@@ -11,30 +11,30 @@ import org.springframework.stereotype.Component;
 import br.edu.utfpr.jsf.model.Produto;
 import br.edu.utfpr.jsf.repository.ProdutoRepository;
 import br.edu.utfpr.jsf.util.FacesUtil;
+import br.edu.utfpr.jsf.util.MessageUtil;
 
 @Component
 public class ProdutoConverter implements Converter {
 
 	@Autowired
 	private ProdutoRepository repository;
+	@Autowired
+	private MessageUtil messageUtil;
 
 	@Override
-	public Object getAsObject(FacesContext context, UIComponent component, 
-		String value) {
+	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		if (value == null || value.isEmpty()) {
 			return null;
 		}
 		try {
 			return repository.findById(Integer.parseInt(value)).orElse(null);
 		} catch (Exception ex) {
-			throw new ConverterException(
-					FacesUtil.criarMensagemErro("Produto inválido"));
+			throw new ConverterException(FacesUtil.criarMensagemErro(messageUtil.getMessage("produto.invalida")));
 		}
 	}
 
 	@Override
-	public String getAsString(FacesContext context, UIComponent component, 
-		Object value) {
+	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value instanceof Produto) {
 			Produto produto = (Produto) value;
 			return String.valueOf(produto.getCodigo());

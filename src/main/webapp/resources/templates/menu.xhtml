@@ -1,18 +1,24 @@
-<ui:fragment xmlns="http://www.w3.org/1999/xhtml" 
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+<ui:fragment xmlns:ui="http://java.sun.com/jsf/facelets"
+      		 xmlns:f="http://java.sun.com/jsf/core"
+      		 xmlns:h="http://java.sun.com/jsf/html"
+      		 xmlns:p="http://primefaces.org/ui">      		 
 	<h:form>
 		<p:menu>
-			<p:submenu label="Cadastros">
-				<p:menuitem outcome="categoria" value="Categorias" />
-				<p:menuitem outcome="cidade" value="Cidades" />
-				<p:menuitem outcome="cliente" value="Clientes" />
-				<p:menuitem outcome="pais" value="Países" />
-				<p:menuitem outcome="pedido" value="Pedidos" />
-				<p:menuitem outcome="produto" value="Produtos" />	
-				<p:menuitem outcome="uf" value="UFs" />	
+			<p:submenu label="#{msg['geral.cadastros']}">
+				<p:menuitem outcome="categoria" 
+					value="#{msg['categoria.listar']}" />
+				<p:menuitem outcome="cidade" 
+					value="#{msg['cidade.listar']}" />
+				<p:menuitem outcome="cliente" 
+					value="#{msg['cliente.listar']}" />
+				<p:menuitem outcome="pais" 
+					value="#{msg['pais.listar']}" />
+				<p:menuitem outcome="pedido" 
+					value="#{msg['pedido.listar']}" />
+				<p:menuitem outcome="produto" 
+					value="#{msg['produto.listar']}" />
+				<p:menuitem outcome="uf" 
+					value="#{msg['uf.listar']}" />
 			</p:submenu>
 		</p:menu>
 	</h:form>

@@ -1,14 +1,10 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	template="/resources/templates/base.xhtml">
-
-<ui:define name="titulo">Aplicação</ui:define>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:p="http://primefaces.org/ui"
+				template="/resources/templates/base.xhtml">
+<ui:define name="titulo">#{msg['geral.nome_aplicacao']}</ui:define>
 <ui:define name="conteudo">
-	<p:schedule value="#{homeBean.eventModel}" 
-		locale="pt"></p:schedule>
+	<p:schedule value="#{homeBean.eventModel}" locale="pt"></p:schedule>
 </ui:define>
-
 </ui:composition>
