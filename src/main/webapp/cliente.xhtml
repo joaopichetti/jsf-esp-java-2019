@@ -1,0 +1,182 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:app="http://java.sun.com/jsf/composite/components"
+      template="/resources/templates/base.xhtml">
+<ui:define name="titulo">Clientes</ui:define>
+<ui:define name="conteudo">
+	<app:crud-dialog dialogId="dlgForm" widgetVar="dlgForm" 
+		onSaveAction="#{clienteBean.salvar}" onCancelAction="#{clienteBean.cancelar}" 
+		onSaveUpdate="@form frmTable" title="#{clienteBean.tituloDialog}"
+		onCancelUpdate="@form frmTable" showEffect="fade" hideEffect="slide">
+		<h:inputHidden value="#{clienteBean.objeto.codigo}" />
+		<p:panelGrid>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Código" />
+				</p:column>
+				<p:column>
+					<p:outputLabel value="#{clienteBean.objeto.codigo}" />	
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Nome" for="nome" />	
+				</p:column>
+				<p:column>
+					<p:inputText id="nome" value="#{clienteBean.objeto.nome}"
+						required="true" requiredMessage="Informe o nome"
+						validatorMessage="Tamanho: entre 2 e 60 caracteres">
+						<f:validateLength minimum="2" maximum="60" />
+					</p:inputText>
+					<p:message for="nome" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="CPF" for="cpf" />	
+				</p:column>
+				<p:column>
+					<p:inputText id="cpf" value="#{clienteBean.objeto.cpf}"
+						placeholder="999.999.999-99" 
+						validator="#{cpfValidator.validate}" />
+					<p:message for="cpf" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="RG" for="rg" />	
+				</p:column>
+				<p:column>
+					<p:inputText id="rg" value="#{clienteBean.objeto.rg}"
+						validatorMessage="Tamanho máximo: 15 caracteres">
+						<f:validateLength maximum="15" />
+					</p:inputText>
+					<p:message for="rg" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Telefone" for="telefone" />
+				</p:column>
+				<p:column>
+					<p:inputText id="telefone" value="#{clienteBean.objeto.telefone}"
+						placeHolder="(99) 99999-9999" maxlength="15"
+						validator="#{clienteBean.telefoneValido}" />
+					<p:message for="telefone" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Data de Nascimento" for="dataNascimento" />
+				</p:column>
+				<p:column>
+					<p:inputText id="dataNascimento" 
+						value="#{clienteBean.objeto.dataNascimento}"
+						placeholder="99/99/9999"
+						converter="#{localDateConverter}" />
+					<p:message for="dataNascimento" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Limite" for="limite" />
+				</p:column>
+				<p:column>
+					<p:inputText id="limite" value="#{clienteBean.objeto.limite}" 
+						converterMessage="Informe um número decimal">
+						<f:convertNumber pattern="#,##0.00" />	
+					</p:inputText>
+					<p:message for="limite" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Prazo para pagamento" for="prazoPag" />
+				</p:column>
+				<p:column>
+					<p:inputText id="prazoPag" value="#{clienteBean.objeto.prazoPag}"
+						converterMessage="Informe um número inteiro">
+						<f:convertNumber integerOnly="true" />
+					</p:inputText>
+					<p:message for="prazoPag" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Cidade" for="cidade" />
+				</p:column>
+				<p:column>
+					<p:selectOneMenu id="cidade" 
+						value="#{clienteBean.objeto.cidade}"
+						converter="#{cidadeConverter}">
+						<f:selectItem itemLabel="Selecione uma cidade"
+							itemValue="" />
+						<f:selectItems value="#{clienteBean.cidades}" 
+							var="cidade" itemLabel="#{cidade.nome}" 
+							itemValue="#{cidade}"  />
+					</p:selectOneMenu>
+					<p:message for="cidade" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+	</app:crud-dialog>
+	<h:form id="frmTable">
+		<p:dataTable id="dataTable" value="#{clienteBean.lista}" 
+			var="cliente" emptyMessage="Nenhum cliente cadastrado" 
+			rowKey="#{cliente.codigo}" selectionMode="single"
+			selection="#{clienteBean.objeto}">
+			<f:facet name="header">Clientes</f:facet>
+			<p:ajax event="rowSelect" update="@form" 
+				listener="#{clienteBean.onRowSelect}" />
+			<p:column headerText="Código">		
+				<p:outputLabel value="#{cliente.codigo}" />
+			</p:column>
+			<p:column headerText="Nome">
+				<p:outputLabel value="#{cliente.nome}" />
+			</p:column>
+			<p:column headerText="CPF">
+				<p:outputLabel value="#{cliente.cpf}" />
+			</p:column>
+			<p:column headerText="RG">		
+				<p:outputLabel value="#{cliente.rg}" />
+			</p:column>
+			<p:column headerText="Telefone">		
+				<p:outputLabel value="#{cliente.telefone}" />
+			</p:column>
+			<p:column headerText="Data de Nascimento">
+				<p:outputLabel value="#{cliente.dataNascimento}"
+					converter="#{localDateConverter}" />
+			</p:column>
+			<p:column headerText="Limite">
+				<p:outputLabel value="#{cliente.limite}">
+					<f:convertNumber pattern="R$ #,##0.00" />
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Prazo para Pagamento">
+				<p:outputLabel value="#{cliente.prazoPag}" />
+			</p:column>
+			<p:column headerText="Cidade">
+				<p:outputLabel value="#{cliente.cidade}" />
+			</p:column>
+			<f:facet name="footer">
+				<p:commandButton value="Novo" process="@this"
+					update=":#{p:component('dlgForm')}" resetValues="true"
+					action="#{clienteBean.novo()}" />
+				<p:commandButton value="Alterar" process="@form" 
+					update=":#{p:component('dlgForm')}" resetValues="true"
+					disabled="#{!clienteBean.registroSelecionado}"
+					action="#{clienteBean.alterar()}" />
+				<p:commandButton value="Remover" process="@form"
+					update="@form" disabled="#{!clienteBean.registroSelecionado}"
+					action="#{clienteBean.remover()}">
+					<p:confirm header="Atenção" 
+						message="Deseja remover esse cliente?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
+			</f:facet>
+		</p:dataTable>
+	</h:form>
+</ui:define> 
+</ui:composition>

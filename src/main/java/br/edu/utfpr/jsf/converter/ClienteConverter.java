@@ -4,16 +4,19 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
-import javax.faces.convert.FacesConverter;
 
-import br.edu.utfpr.jsf.dao.DAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import br.edu.utfpr.jsf.model.Cliente;
+import br.edu.utfpr.jsf.repository.ClienteRepository;
 import br.edu.utfpr.jsf.util.FacesUtil;
 
-@FacesConverter(value="clienteConverter")
+@Component
 public class ClienteConverter implements Converter {
 
-	private DAO<Cliente> dao = new DAO<>(Cliente.class);
+	@Autowired
+	private ClienteRepository repository;
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, 
@@ -22,7 +25,7 @@ public class ClienteConverter implements Converter {
 			return null;
 		}
 		try {
-			return dao.findById(Integer.parseInt(value));
+			return repository.findById(Integer.parseInt(value)).orElse(null);
 		} catch (Exception ex) {
 			throw new ConverterException(
 					FacesUtil.criarMensagemErro("Cliente inválido"));

@@ -8,20 +8,20 @@
 <ui:define name="conteudo">
 	<app:crud-dialog dialogId="dlgForm" widgetVar="dlgForm" 
 		onSaveAction="#{paisBean.salvar}" onCancelAction="#{paisBean.cancelar}" 
-		onSaveUpdate="@form frmTable" title="#{paisBean.tituloDialog}" 
+		onSaveUpdate="@form frmTable" title="#{paisBean.tituloDialog}"
 		onCancelUpdate="@form frmTable" showEffect="fade" hideEffect="slide">
-		<h:inputHidden value="#{paisBean.pais.codigo}" />
+		<h:inputHidden value="#{paisBean.objeto.codigo}" />
 		<p:panelGrid>
 			<p:row>
 				<p:column><p:outputLabel value="Código" /></p:column>
 				<p:column>
-					<p:outputLabel value="#{paisBean.pais.codigo}" />
+					<p:outputLabel value="#{paisBean.objeto.codigo}" />
 				</p:column>
 			</p:row>
 			<p:row>
 				<p:column><p:outputLabel value="Nome" for="nome" /></p:column>
 				<p:column>
-					<p:inputText id="nome" value="#{paisBean.pais.nome}"
+					<p:inputText id="nome" value="#{paisBean.objeto.nome}"
 						required="true" requiredMessage="Informe o nome"
 						validatorMessage="Tamanho máximo: 40 caracteres">
 						<f:validateLength maximum="40" />
@@ -32,10 +32,13 @@
 		</p:panelGrid>
 	</app:crud-dialog>
 	<h:form id="frmTable">
-		<p:dataTable value="#{paisBean.paises}" var="pais" rowKey="#{pais.codigo}"
-			selection="#{paisBean.pais}" selectionMode="single"
-			emptyMessage="Nenhum país cadastrado">
+		<p:dataTable value="#{paisBean.lista}" 
+			var="pais" emptyMessage="Nenhum país cadastrado" 
+			rowKey="#{pais.codigo}" selectionMode="single"
+			selection="#{paisBean.objeto}">
 			<f:facet name="header">Países</f:facet>
+			<p:ajax event="rowSelect" update="@form" 
+				listener="#{paisBean.onRowSelect}" />
 			<p:column headerText="Código">
 				<p:outputLabel value="#{pais.codigo}" />
 			</p:column>
@@ -43,14 +46,19 @@
 				<p:outputLabel value="#{pais.nome}" />
 			</p:column>
 			<f:facet name="footer">
-				<p:commandButton value="Novo" action="#{paisBean.novo()}"
-					process="@this" update=":#{p:component('dlgForm')}" resetValues="true" />
-				<p:commandButton value="Alterar" action="#{paisBean.alterar()}"
-					process="@form" update=":#{p:component('dlgForm')}" resetValues="true" />
-				<p:commandButton value="Remover" action="#{paisBean.remover()}"
-					process="@form" update="@form">
-					<p:confirm header="Atenção" icon="ui-icon-alert"
-						 message="Deseja excluir esse país?" />
+				<p:commandButton value="Novo" process="@this"
+					update=":#{p:component('dlgForm')}" resetValues="true"
+					action="#{paisBean.novo()}" />
+				<p:commandButton value="Alterar" process="@form" 
+					update=":#{p:component('dlgForm')}" resetValues="true"
+					disabled="#{!paisBean.registroSelecionado}"
+					action="#{paisBean.alterar()}" />
+				<p:commandButton value="Remover" process="@form"
+					update="@form" disabled="#{!paisBean.registroSelecionado}"
+					action="#{paisBean.remover()}">
+					<p:confirm header="Atenção" 
+						message="Deseja remover esse país?"
+						icon="ui-icon-alert" />
 				</p:commandButton>
 			</f:facet>
 		</p:dataTable>

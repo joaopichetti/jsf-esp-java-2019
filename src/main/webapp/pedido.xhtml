@@ -1,189 +1,156 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/resources/templates/base.xhtml">
-    
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:app="http://java.sun.com/jsf/composite/components"
+      template="/resources/templates/base.xhtml">
 <ui:define name="titulo">Pedidos</ui:define>
 <ui:define name="conteudo">
-	<p:panel id="pnlForm" header="#{pedidoBean.tituloForm}"
-		visible="#{pedidoBean.mostrarForm()}">
-		<h:form>
-			<h:inputHidden value="#{pedidoBean.pedido.codigo}" />
-			<p:panelGrid>
-				<p:row>
-					<p:column>
-						<p:outputLabel value="Código" />
-					</p:column>
-					<p:column>
-						<p:outputLabel value="#{pedidoBean.pedido.codigo}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:outputLabel value="Data" for="data" />
-					</p:column>
-					<p:column>
-						<p:calendar id="data"
-							value="#{pedidoBean.pedido.data}"
-							required="true"
-							requiredMessage="Informe a data"
-							pattern="dd/MM/yyyy" />
-						<p:message for="data" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:outputLabel value="Cliente" for="cliente" />
-					</p:column>
-					<p:column>
-						<p:selectOneMenu id="cliente" required="true"
-							requiredMessage="Selecione um cliente"
-							value="#{pedidoBean.pedido.cliente}"
-							converter="clienteConverter">
-							<f:selectItem itemLabel="Selecione um cliente"
-								itemValue="" />
-							<f:selectItems value="#{pedidoBean.clientes}"
-								var="cliente" itemLabel="#{cliente.nome}"
-								itemValue="#{cliente}" />
-						</p:selectOneMenu>
-						<p:message for="cliente" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:outputLabel value="Total" />
-					</p:column>
-					<p:column>
-						<p:outputLabel id="total"
-							value="#{pedidoBean.pedido.total}">
-							<f:convertNumber pattern="R$ #,##0.00" />	
-						</p:outputLabel>
-					</p:column>
-				</p:row>
-			</p:panelGrid>
-			<br />
-			<p:dataTable id="tblItens" value="#{pedidoBean.pedido.itens}"
-				var="item" emptyMessage="Adicione um produto"
-				rowIndexVar="indice">
-				<f:facet name="header">Produtos</f:facet>
-				<p:column headerText="Produto">
-					<p:selectOneMenu id="produto" required="true"
-						requiredMessage="Selecione um produto"
-						value="#{item.produto}"
-						converter="produtoConverter">
-						<f:selectItem itemValue=""
-							itemLabel="Selecione um produto" />
-						<f:selectItems value="#{produtoBean.produtos}"
-							var="produto" itemLabel="#{produto.nome}"
-							itemValue="#{produto}" />	
+	<app:crud-dialog dialogId="dlgForm" widgetVar="dlgForm" 
+		onSaveAction="#{pedidoBean.salvar}" onCancelAction="#{pedidoBean.cancelar}" 
+		onSaveUpdate="@form frmTable" title="#{pedidoBean.tituloDialog}"
+		onCancelUpdate="@form frmTable" showEffect="fade" hideEffect="slide">
+		<h:inputHidden value="#{pedidoBean.objeto.codigo}" />
+		<p:panelGrid>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Código" />
+				</p:column>
+				<p:column>
+					<p:outputLabel value="#{pedidoBean.objeto.codigo}" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Data" for="data" />
+				</p:column>
+				<p:column>
+					<p:calendar id="data" value="#{pedidoBean.objeto.data}"
+						required="true" requiredMessage="Informe a data"
+						converter="#{localDateConverter}"
+						pattern="dd/MM/yyyy" />
+					<p:message for="data" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Cliente" for="cliente" />
+				</p:column>
+				<p:column>
+					<p:selectOneMenu id="cliente" required="true"
+						requiredMessage="Selecione um cliente"
+						value="#{pedidoBean.objeto.cliente}"
+						converter="#{clienteConverter}">
+						<f:selectItem itemLabel="Selecione um cliente" itemValue="" />
+						<f:selectItems value="#{pedidoBean.clientes}" var="cliente"
+							itemLabel="#{cliente.nome}" itemValue="#{cliente}" />
 					</p:selectOneMenu>
+					<p:message for="cliente" />
 				</p:column>
-				<p:column headerText="Quantidade">
-					<p:inputText id="quantidade"
-						value="#{item.quantidade}"
-						required="true"
-						requiredMessage="Informe a quantidade"
-						validatorMessage="Valor mínimo: 0,01">
-						<f:validateDoubleRange minimum="0.01" />
-						<p:ajax event="keyup" 
-							update="totItem @form:total" />
-					</p:inputText>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Total" />
 				</p:column>
-				<p:column headerText="Valor unitário">
-					<p:inputText id="valorUnitario" 
-						value="#{item.valorUnitario}"
-						required="true"
-						requiredMessage="Informe o valor unitário"
-						validatorMessage="Valor mínimo: 0,01">
-						<f:validateDoubleRange minimum="0.01" />
-						<p:ajax event="keyup" 
-							update="totItem @form:total" />
-					</p:inputText>
-				</p:column>
-				<p:column headerText="Total">
-					<p:outputLabel id="totItem" value="#{item.totalUnitario}">
+				<p:column>
+					<p:outputLabel id="total" value="#{pedidoBean.objeto.total}">
 						<f:convertNumber pattern="R$ #,##0.00" />
 					</p:outputLabel>
 				</p:column>
-				<p:column width="15">
-					<h:inputHidden value="#{item.codigo}" />
-					<p:commandLink
-						action="#{pedidoBean.removerItem(indice)}"
-						immediate="true" title="Remover"
-						process="tblItens" update="tblItens"
-						styleClass="ui-icon ui-icon-trash" />
-				</p:column>
-				<f:facet name="footer">
-					<p:commandButton action="#{pedidoBean.addItem()}"
-						value="Adicionar" icon="ui-icon-plus"
-						process="tblItens" update="tblItens" />
-				</f:facet>
-			</p:dataTable>
-			<hr />
-			<p:commandButton value="Salvar" process="@form"
-				update="pnlForm pnlTable"
-				action="#{pedidoBean.salvar()}" />
-			<p:commandButton value="Cancelar" process="@this"
-				update="pnlForm pnlTable"
-				action="#{pedidoBean.voltarParaListagem()}" />
-		</h:form>
-	</p:panel>
-	<p:panel id="pnlTable" header="Pedidos"
-		visible="#{!pedidoBean.mostrarForm()}">
-		<h:form>
-			<p:dataTable value="#{pedidoBean.pedidos}" var="pedido"
-				emptyMessage="Nenhum pedido cadastrado" 
-				rowKey="#{pedido.codigo}" selection="#{pedidoBean.pedido}"
-				selectionMode="single">
-				<p:ajax event="rowSelect" 
-					listener="#{pedidoBean.onRowSelect}"
-					update="@form" />
-				<p:column headerText="Código">
-					<p:outputLabel value="#{pedido.codigo}" />
-				</p:column>
-				<p:column headerText="Data">
-					<p:outputLabel value="#{pedido.data}" />
-				</p:column>
-				<p:column headerText="Cliente">
-					<p:outputLabel value="#{pedido.cliente.nome}" />
-				</p:column>
-				<p:column headerText="Total">
-					<p:outputLabel value="#{pedido.total}">
-						<f:convertNumber pattern="R$ #,##0.00" />
-					</p:outputLabel>
-				</p:column>
-				<f:facet name="footer">
-					<p:commandButton value="Novo" process="@this"
-						update="pnlForm pnlTable"
-						action="#{pedidoBean.novo()}"
-						resetValues="true" />
-					<p:commandButton value="Alterar" process="@form"
-						update="pnlForm pnlTable"
-						action="#{pedidoBean.alterar()}"
-						disabled="#{!pedidoBean.pedidoSelecionado}"
-						resetValues="true" />
-					<p:commandButton value="Remover" process="@form"
-						update="pnlForm pnlTable"
-						action="#{pedidoBean.remover()}"
-						disabled="#{!pedidoBean.pedidoSelecionado}">
-						<p:confirm header="Atenção"
-							message="Deseja remover esse pedido?"
-							icon="ui-icon-alert" />
-					</p:commandButton>
-				</f:facet>
-			</p:dataTable>
-		</h:form>
-	</p:panel>
-</ui:define>
-
+			</p:row>				
+		</p:panelGrid>
+		<br />
+		<p:dataTable id="tblItens" value="#{pedidoBean.objeto.itens}"
+			var="item" emptyMessage="Adicione um item" rowIndexVar="indice"
+			style="max-width: 900px;">
+			<f:facet name="header">Itens</f:facet>
+			<p:column headerText="Produto">
+				<p:selectOneMenu id="produto" required="true"
+					requiredMessage="Selecione um produto" value="#{item.produto}"
+					converter="#{produtoConverter}"
+					style="max-width: 150px;">
+					<f:selectItem itemValue="" itemLabel="Selecione um produto" />
+					<f:selectItems value="#{pedidoBean.produtos}" var="produto"
+						itemValue="#{produto}" itemLabel="#{produto.nome}" />
+				</p:selectOneMenu>
+			</p:column>
+			<p:column headerText="Quantidade">
+				<p:inputText id="quantidade" value="#{item.quantidade}"
+					required="true" requiredMessage="Informe a quantidade"
+					validatorMessage="Valor mínimo: 0,01"
+					style="max-width: 150px;">
+					<f:validateDoubleRange minimum="0.01" />
+					<p:ajax event="keyup" update="totItem @form:total" />
+				</p:inputText>
+			</p:column>
+			<p:column headerText="Valor unitário">
+				<p:inputText id="valorUnitario" value="#{item.valorUnitario}"
+					required="true" requiredMessage="Informe o valor unitário"
+					validatorMessage="Valor mínimo: 0,01"
+					style="max-width: 150px;">
+					<f:validateDoubleRange minimum="0.01" />
+					<p:ajax event="keyup" update="totItem @form:total" />
+				</p:inputText>
+			</p:column>
+			<p:column headerText="Total">
+				<p:outputLabel id="totItem" value="#{item.totalUnitario}">
+					<f:convertNumber pattern="R$ #,##0.00" />
+				</p:outputLabel>
+			</p:column>
+			<p:column width="15">
+				<h:inputHidden value="#{item.codigo}" />
+				<p:commandLink action="#{pedidoBean.removerItem(indice)}"
+					immediate="true" title="Remover" process="tblItens"
+					update="tblItens @form:total" 
+					styleClass="ui-icon ui-icon-trash" />
+			</p:column>
+			<f:facet name="footer">
+				<p:commandButton action="#{pedidoBean.addItem()}"
+					process="tblItens" update="tblItens" 
+					value="Adicionar" icon="ui-icon-plus" />
+			</f:facet>
+		</p:dataTable>
+	</app:crud-dialog>
+	<h:form id="frmTable">
+		<p:dataTable value="#{pedidoBean.lista}" 
+			var="pedido" emptyMessage="Nenhum país cadastrado" 
+			rowKey="#{pedido.codigo}" selectionMode="single"
+			selection="#{pedidoBean.objeto}">
+			<f:facet name="header">Pedidos</f:facet>
+			<p:ajax event="rowSelect" update="@form" 
+				listener="#{pedidoBean.onRowSelect}" />
+			<p:column headerText="Código">
+				<p:outputLabel value="#{pedido.codigo}" />
+			</p:column>
+			<p:column headerText="Data">
+				<p:outputLabel value="#{pedido.data}"
+					converter="#{localDateConverter}" />
+			</p:column>
+			<p:column headerText="Cliente">
+				<p:outputLabel value="#{pedido.cliente.nome}" />
+			</p:column>
+			<p:column headerText="Total">
+				<p:outputLabel value="#{pedido.total}">
+					<f:convertNumber pattern="R$ #,##0.00" />
+				</p:outputLabel>
+			</p:column>
+			<f:facet name="footer">
+				<p:commandButton value="Novo" process="@this"
+					update=":#{p:component('dlgForm')}" resetValues="true"
+					action="#{pedidoBean.novo()}" />
+				<p:commandButton value="Alterar" process="@form" 
+					update=":#{p:component('dlgForm')}" resetValues="true"
+					disabled="#{!pedidoBean.registroSelecionado}"
+					action="#{pedidoBean.alterar()}" />
+				<p:commandButton value="Remover" process="@form"
+					update="@form" disabled="#{!pedidoBean.registroSelecionado}"
+					action="#{pedidoBean.remover()}">
+					<p:confirm header="Atenção" 
+						message="Deseja remover esse pedido?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
+			</f:facet>
+		</p:dataTable>
+	</h:form>
+</ui:define> 
 </ui:composition>
-
-
-
-
-
-
-
-

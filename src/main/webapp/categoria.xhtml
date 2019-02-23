@@ -1,103 +1,86 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/resources/templates/base.xhtml">
- 
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:app="http://java.sun.com/jsf/composite/components"
+      template="/resources/templates/base.xhtml">
 <ui:define name="titulo">Categorias</ui:define>
 <ui:define name="conteudo">
-	<p:panel id="pnlForm" header="#{categoriaBean.getTituloForm()}"
-		visible="#{categoriaBean.mostrarForm()}">
-		<h:form>
-			<h:inputHidden value="#{categoriaBean.categoria.codigo}" />
-			<p:panelGrid>
-				<p:row>	
-					<p:column>						
-						<p:outputLabel value="Código" />
-					</p:column>
-					<p:column>
-						<p:outputLabel value="#{categoriaBean.categoria.codigo}" />
-					</p:column>
-				</p:row>	
-				<p:row>
-					<p:column>
-						<p:outputLabel value="Nome" for="nome" />
-					</p:column>
-					<p:column>
-						<p:inputText id="nome" value="#{categoriaBean.categoria.nome}"
-							required="true" requiredMessage="Informe a categoria"
-							validatorMessage="Tamanho máximo: 30 caracteres">
-							<f:validateLength maximum="30" />
-						</p:inputText>
-						<p:message for="nome" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:outputLabel value="Descrição" for="descricao" />
-					</p:column>
-					<p:column>
-						<p:inputText id="descricao" value="#{categoriaBean.categoria.descricao}"
-							validatorMessage="Tamanho máximo: 100 caracteres">
-							<f:validateLength maximum="100" />
-						</p:inputText>
-						<p:message for="descricao" />
-					</p:column>
-				</p:row>			
-				<f:facet name="footer">
-					<p:row>
-						<p:column colspan="2">
-							<p:commandButton value="Salvar"
-								process="@form" update="pnlForm pnlTable"
-								action="#{categoriaBean.salvar()}" />
-							<p:commandButton value="Cancelar"
-								process="@this" update="pnlForm pnlTable"
-								action="#{categoriaBean.voltarParaListagem()}" />
-						</p:column>
-					</p:row>
-				</f:facet>
-			</p:panelGrid>
-		</h:form>
-	</p:panel>
-
-	<p:panel id="pnlTable" header="Categorias" 
-		visible="#{!categoriaBean.mostrarForm()}">
-		<h:form>
-			<p:dataTable value="#{categoriaBean.categorias}" var="categoria" 
-				emptyMessage="Nenhuma categoria cadastrada" 
-				rowKey="#{categoria.codigo}"
-				selection="#{categoriaBean.categoria}" selectionMode="single">
-				<p:ajax event="rowSelect" update="@form" 
-					listener="#{categoriaBean.onRowSelect}" />
-				<p:column headerText="Código">
-					<p:outputLabel  value="#{categoria.codigo}"/>
+	<app:crud-dialog dialogId="dlgForm" widgetVar="dlgForm" 
+		onSaveAction="#{categoriaBean.salvar}" onCancelAction="#{categoriaBean.cancelar}" 
+		onSaveUpdate="@form frmTable" title="#{categoriaBean.tituloDialog}"
+		onCancelUpdate="@form frmTable" showEffect="fade" hideEffect="slide">
+		<h:inputHidden value="#{categoriaBean.objeto.codigo}" />
+		<p:panelGrid>
+			<p:row>	
+				<p:column>						
+					<p:outputLabel value="Código" />
 				</p:column>
-				<p:column headerText="Nome">
-					<p:outputLabel  value="#{categoria.nome}"/>
+				<p:column>
+					<p:outputLabel value="#{categoriaBean.objeto.codigo}" />
 				</p:column>
-				<p:column headerText="Descrição">
-					<p:outputLabel  value="#{categoria.descricao}"/>
+			</p:row>	
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Nome" for="nome" />
 				</p:column>
-				<f:facet name="footer">
-					<p:commandButton value="Novo" process="@this"
-						update="pnlForm pnlTable" resetValues="true"
-						action="#{categoriaBean.novo()}" />
-					<p:commandButton value="Alterar" process="@form" 
-						update="pnlForm pnlTable" resetValues="true"
-						disabled="#{!categoriaBean.categoriaSelecionada}"
-						action="#{categoriaBean.alterar()}" />
-					<p:commandButton value="Remover" process="@form"
-						update="@form"
-						disabled="#{!categoriaBean.categoriaSelecionada}"
-						action="#{categoriaBean.remover()}">
-						<p:confirm header="Atenção" 
-							message="Deseja remover essa categoria?"
-							icon="ui-icon-alert" />
-					</p:commandButton>
-				</f:facet>
-			</p:dataTable>
-		</h:form>
-	</p:panel>
-</ui:define>
+				<p:column>
+					<p:inputText id="nome" value="#{categoriaBean.objeto.nome}"
+						required="true" requiredMessage="Informe o nome"
+						validatorMessage="Tamanho máximo: 30 caracteres">
+						<f:validateLength maximum="30" />
+					</p:inputText>
+					<p:message for="nome" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Descrição" for="descricao" />
+				</p:column>
+				<p:column>
+					<p:inputText id="descricao" value="#{categoriaBean.objeto.descricao}"
+						validatorMessage="Tamanho máximo: 100 caracteres">
+						<f:validateLength maximum="100" />
+					</p:inputText>
+					<p:message for="descricao" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+	</app:crud-dialog>
+	<h:form id="frmTable">
+		<p:dataTable id="dataTable" value="#{categoriaBean.lista}" 
+			var="categoria" emptyMessage="Nenhuma categoria cadastrada" 
+			rowKey="#{categoria.codigo}" selectionMode="single"
+			selection="#{categoriaBean.objeto}">
+			<f:facet name="header">Categorias</f:facet>
+			<p:ajax event="rowSelect" update="@form" 
+				listener="#{categoriaBean.onRowSelect}" />
+			<p:column headerText="Código">
+				<p:outputLabel  value="#{categoria.codigo}" />
+			</p:column>
+			<p:column headerText="Nome">
+				<p:outputLabel  value="#{categoria.nome}" />
+			</p:column>
+			<p:column headerText="Descrição">
+				<p:outputLabel  value="#{categoria.descricao}" />
+			</p:column>
+			<f:facet name="footer">
+				<p:commandButton value="Novo" process="@this"
+					update=":#{p:component('dlgForm')}" resetValues="true"
+					action="#{categoriaBean.novo()}" />
+				<p:commandButton value="Alterar" process="@form" 
+					update=":#{p:component('dlgForm')}" resetValues="true"
+					disabled="#{!categoriaBean.registroSelecionado}"
+					action="#{categoriaBean.alterar()}" />
+				<p:commandButton value="Remover" process="@form"
+					update="@form" disabled="#{!categoriaBean.registroSelecionado}"
+					action="#{categoriaBean.remover()}">
+					<p:confirm header="Atenção" 
+						message="Deseja remover essa categoria?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
+			</f:facet>
+		</p:dataTable>
+	</h:form>
+</ui:define> 
 </ui:composition>

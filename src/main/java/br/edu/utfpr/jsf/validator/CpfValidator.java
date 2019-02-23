@@ -2,13 +2,14 @@ package br.edu.utfpr.jsf.validator;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
+import org.springframework.stereotype.Component;
+
 import br.edu.utfpr.jsf.util.FacesUtil;
 
-@FacesValidator
+@Component
 public class CpfValidator implements Validator {
 
 	@Override

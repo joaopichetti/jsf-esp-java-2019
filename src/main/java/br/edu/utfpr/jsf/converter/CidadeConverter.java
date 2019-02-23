@@ -4,16 +4,19 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
-import javax.faces.convert.FacesConverter;
 
-import br.edu.utfpr.jsf.dao.DAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import br.edu.utfpr.jsf.model.Cidade;
+import br.edu.utfpr.jsf.repository.CidadeRepository;
 import br.edu.utfpr.jsf.util.FacesUtil;
 
-@FacesConverter(value="cidadeConverter")
+@Component
 public class CidadeConverter implements Converter {
 	
-	private DAO<Cidade> dao = new DAO<>(Cidade.class);
+	@Autowired
+	private CidadeRepository repository;
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
@@ -21,7 +24,7 @@ public class CidadeConverter implements Converter {
 			return null;
 		}
 		try {
-			return dao.findById(Integer.parseInt(value));
+			return repository.findById(Integer.parseInt(value)).orElse(null);
 		} catch (Exception ex) {
 			throw new ConverterException(
 					FacesUtil.criarMensagemErro("Cidade inválida"));

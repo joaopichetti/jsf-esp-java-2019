@@ -4,16 +4,19 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
-import javax.faces.convert.FacesConverter;
 
-import br.edu.utfpr.jsf.dao.DAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import br.edu.utfpr.jsf.model.Produto;
+import br.edu.utfpr.jsf.repository.ProdutoRepository;
 import br.edu.utfpr.jsf.util.FacesUtil;
 
-@FacesConverter(value="produtoConverter")
+@Component
 public class ProdutoConverter implements Converter {
 
-	private DAO<Produto> dao = new DAO<>(Produto.class);
+	@Autowired
+	private ProdutoRepository repository;
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, 
@@ -22,7 +25,7 @@ public class ProdutoConverter implements Converter {
 			return null;
 		}
 		try {
-			return dao.findById(Integer.parseInt(value));
+			return repository.findById(Integer.parseInt(value)).orElse(null);
 		} catch (Exception ex) {
 			throw new ConverterException(
 					FacesUtil.criarMensagemErro("Produto inválido"));

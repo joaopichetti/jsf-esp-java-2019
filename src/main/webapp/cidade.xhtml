@@ -1,51 +1,61 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/resources/templates/base.xhtml">
-
-<ui:define name="titulo">Cidades</ui:define>    
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:app="http://java.sun.com/jsf/composite/components"
+      template="/resources/templates/base.xhtml">
+<ui:define name="titulo">Cidades</ui:define>
 <ui:define name="conteudo">
-	<h:form>
-		<h:inputHidden value="#{cidadeBean.cidade.codigo}" />
-		<p:panelGrid columns="2">
-			<f:facet name="header">Cadastro de Cidades</f:facet>
+	<app:crud-dialog dialogId="dlgForm" widgetVar="dlgForm" 
+		onSaveAction="#{cidadeBean.salvar}" onCancelAction="#{cidadeBean.cancelar}" 
+		onSaveUpdate="@form frmTable" title="#{cidadeBean.tituloDialog}"
+		onCancelUpdate="@form frmTable" showEffect="fade" hideEffect="slide">
+		<h:inputHidden value="#{cidadeBean.objeto.codigo}" />
+		<p:panelGrid columns="2">							
 			<p:outputLabel value="Código" />
-			<p:outputLabel value="#{cidadeBean.cidade.codigo}" />
+			<p:outputLabel value="#{cidadeBean.objeto.codigo}" />	
+							
 			<p:outputLabel value="Nome" for="nome" />
-			<p:inputText id="nome" value="#{cidadeBean.cidade.nome}" />
-			<p:outputLabel value="Sigla da UF" for="uf" />
-			<p:inputText id="uf" value="#{cidadeBean.cidade.uf}" />
-			<f:facet name="footer">
-				<p:commandButton value="Salvar" ajax="false"
-					action="#{cidadeBean.salvar()}" />
-			</f:facet>
+			<p:inputText id="nome" value="#{cidadeBean.objeto.nome}" />
+				
+			<p:outputLabel value="Sigla da UF" for="uf"/>
+			<p:inputText id="uf" value="#{cidadeBean.objeto.uf}" />
 		</p:panelGrid>
-	</h:form>
-	<br />
-	<h:form>
-		<p:dataTable value="#{cidadeBean.cidades}" var="cidade"
-			emptyMessage="Nenhuma cidade cadastrada" rowKey="#{cidade.codigo}"
-			selection="#{cidadeBean.cidade}" selectionMode="single">
+	</app:crud-dialog>
+	<h:form id="frmTable">
+		<p:dataTable id="dataTable" value="#{cidadeBean.lista}" 
+			var="cidade" emptyMessage="Nenhuma cidade cadastrada" 
+			rowKey="#{cidade.codigo}" selectionMode="single"
+			selection="#{cidadeBean.objeto}">
+			<f:facet name="header">Cidades</f:facet>
+			<p:ajax event="rowSelect" update="@form" 
+				listener="#{cidadeBean.onRowSelect}" />
 			<p:column headerText="Código">
-				<p:outputLabel value="#{cidade.codigo}" />
+				<p:outputLabel  value="#{cidade.codigo}"/>
 			</p:column>
 			<p:column headerText="Nome">
-				<p:outputLabel value="#{cidade.nome}" />
+				<p:outputLabel  value="#{cidade.nome}"/>
 			</p:column>
 			<p:column headerText="Sigla da UF">
-				<p:outputLabel value="#{cidade.uf}" />
+				<p:outputLabel  value="#{cidade.uf}"/>
 			</p:column>
 			<f:facet name="footer">
-				<p:commandButton value="Novo" ajax="false"
+				<p:commandButton value="Novo" process="@this"
+					update=":#{p:component('dlgForm')}" resetValues="true"
 					action="#{cidadeBean.novo()}" />
-				<p:commandButton value="Alterar" ajax="false"
+				<p:commandButton value="Alterar" process="@form" 
+					update=":#{p:component('dlgForm')}" resetValues="true"
+					disabled="#{!cidadeBean.registroSelecionado}"
 					action="#{cidadeBean.alterar()}" />
-				<p:commandButton value="Remover" ajax="false"
-					action="#{cidadeBean.remover()}" />
+				<p:commandButton value="Remover" process="@form"
+					update="@form" disabled="#{!cidadeBean.registroSelecionado}"
+					action="#{cidadeBean.remover()}">
+					<p:confirm header="Atenção" 
+						message="Deseja remover essa cidade?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
 			</f:facet>
 		</p:dataTable>
 	</h:form>
-</ui:define>
+</ui:define> 
 </ui:composition>

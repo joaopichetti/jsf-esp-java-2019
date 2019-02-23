@@ -1,29 +1,23 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:app="http://java.sun.com/jsf/composite/components"
-    template="/resources/templates/base.xhtml">
-    
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:app="http://java.sun.com/jsf/composite/components"
+      template="/resources/templates/base.xhtml">
 <ui:define name="titulo">Produtos</ui:define>
 <ui:define name="conteudo">
-	<h:form id="form">
-		<h:inputHidden value="#{produtoBean.produto.codigo}" />
+	<app:crud-dialog dialogId="dlgForm" widgetVar="dlgForm" 
+		onSaveAction="#{produtoBean.salvar}" onCancelAction="#{produtoBean.cancelar}" 
+		onSaveUpdate="@form frmTable" title="#{produtoBean.tituloDialog}"
+		onCancelUpdate="@form frmTable" showEffect="fade" hideEffect="slide">
+		<h:inputHidden value="#{produtoBean.objeto.codigo}" />
 		<p:panelGrid>
-			<f:facet name="header">
-				<p:row>
-					<p:column colspan="2">
-						Cadastro de Produtos		
-					</p:column>
-				</p:row>
-			</f:facet>
 			<p:row>
 				<p:column>
 					<p:outputLabel value="Código" />	
 				</p:column>
 				<p:column>
-					<p:outputLabel value="#{produtoBean.produto.codigo}" />	
+					<p:outputLabel value="#{produtoBean.objeto.codigo}" />	
 				</p:column>
 			</p:row>
 			<p:row>
@@ -31,7 +25,7 @@
 					<p:outputLabel value="Nome" for="nome" />	
 				</p:column>
 				<p:column>
-					<p:inputText id="nome" value="#{produtoBean.produto.nome}"
+					<p:inputText id="nome" value="#{produtoBean.objeto.nome}"
 						required="true" requiredMessage="Informe o nome"
 						validatorMessage="Tamanho máximo: 40 caracteres">
 						<f:validateLength maximum="40" />
@@ -44,8 +38,8 @@
 					<p:outputLabel value="Categoria" for="categoria" />	
 				</p:column>
 				<p:column>
-					<p:selectOneMenu id="categoria" value="#{produtoBean.produto.categoria}"
-						converter="categoriaConverter">
+					<p:selectOneMenu id="categoria" value="#{produtoBean.objeto.categoria}"
+						converter="#{categoriaConverter}">
 						<f:selectItem itemLabel="Selecione uma categoria" itemValue="" />
 						<f:selectItems value="#{produtoBean.categorias}" var="categoria"
 							itemLabel="#{categoria.nome}" itemValue="#{categoria}" />
@@ -57,7 +51,7 @@
 					<p:outputLabel value="Preço" for="preco" />	
 				</p:column>
 				<p:column>
-					<p:inputText id="preco" value="#{produtoBean.produto.preco}"
+					<p:inputText id="preco" value="#{produtoBean.objeto.preco}"
 						convertMessage="Preço inválido">
 						<f:convertNumber pattern="#,##0.00" />
 					</p:inputText>	
@@ -68,26 +62,20 @@
 					<p:outputLabel value="Ativo" for="ativo" />
 				</p:column>
 				<p:column>
-					<p:selectBooleanCheckbox id="ativo"
-						value="#{produtoBean.produto.ativo}" />
+					<p:selectBooleanCheckbox id="ativo" 
+						value="#{produtoBean.objeto.ativo}" />
 				</p:column>
 			</p:row>
-			<f:facet name="footer">
-				<p:row>
-					<p:column colspan="2">
-						<p:commandButton id="btnSalvar" value="Salvar" ajax="false"
-							action="#{produtoBean.salvar()}" />
-					</p:column>
-				</p:row>
-			</f:facet>
 		</p:panelGrid>
-	</h:form>
-	<br/>
-	<h:form>
-		<p:dataTable value="#{produtoBean.produtos}" var="produto" 
-			emptyMessage="Nenhum produto cadastrado" 
-			rowKey="#{produto.codigo}" selection="#{produtoBean.produto}" 
-			selectionMode="single">
+	</app:crud-dialog>
+	<h:form id="frmTable">
+		<p:dataTable id="dataTable" value="#{produtoBean.lista}" 
+			var="produto" emptyMessage="Nenhum produto cadastrado" 
+			rowKey="#{produto.codigo}" selectionMode="single"
+			selection="#{produtoBean.objeto}">
+			<f:facet name="header">Produtos</f:facet>
+			<p:ajax event="rowSelect" update="@form" 
+				listener="#{produtoBean.onRowSelect}" />
 			<p:column headerText="Código">
 				<p:outputLabel value="#{produto.codigo}"/>
 			</p:column>
@@ -101,19 +89,25 @@
 				<p:outputLabel value="#{produto.preco}"/>
 			</p:column>
 			<p:column headerText="Ativo">
-				<app:readonly-checkbox 
-					value="#{produto.ativo}" />
+				<app:readonly-checkbox value="#{produto.ativo}" />
 			</p:column>
 			<f:facet name="footer">
-				<p:commandButton value="Novo" ajax="false"  
+				<p:commandButton value="Novo" process="@this"
+					update=":#{p:component('dlgForm')}" resetValues="true"
 					action="#{produtoBean.novo()}" />
-				<p:commandButton value="Alterar" ajax="false" 
+				<p:commandButton value="Alterar" process="@form" 
+					update=":#{p:component('dlgForm')}" resetValues="true"
+					disabled="#{!produtoBean.registroSelecionado}"
 					action="#{produtoBean.alterar()}" />
-				<p:commandButton value="Remover" ajax="false"
-					action="#{produtoBean.remover()}" />
+				<p:commandButton value="Remover" process="@form"
+					update="@form" disabled="#{!produtoBean.registroSelecionado}"
+					action="#{produtoBean.remover()}">
+					<p:confirm header="Atenção" 
+						message="Deseja remover esse produto?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
 			</f:facet>
 		</p:dataTable>
 	</h:form>
-</ui:define>
-
+</ui:define> 
 </ui:composition>
