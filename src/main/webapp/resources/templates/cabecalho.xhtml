@@ -11,10 +11,16 @@
 				</p:link>
 			</p:menuitem>
 			<f:facet name="options">
-				<p:selectOneMenu value="#{sessionBean.theme}" onchange="submit();">				 -->
+				<p:selectOneMenu value="#{sessionBean.theme}" onchange="submit();">
 					<f:selectItems value="#{sessionBean.themes}" var="theme"
 						itemLabel="#{theme.label}" itemValue="#{theme.value}" />
 				</p:selectOneMenu>
+				<p:spacer width="5" />
+				<p:menuButton value="#{sessionBean.usuario.nome}">
+					<p:menuitem value="#{msg['geral.sair']}" 
+						icon="fa fa-sign-out"
+						onclick="location.href='/logout'" />
+				</p:menuButton>
 			</f:facet>
 		</p:menubar>
 	</h:form>

@@ -1,0 +1,138 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:app="http://java.sun.com/jsf/composite/components"
+      template="/resources/templates/base.xhtml">
+<ui:define name="titulo">#{msg['usuario.listar']}</ui:define>
+<ui:define name="conteudo">
+	<app:crud-dialog dialogId="dlgForm" widgetVar="dlgForm" 
+		onSaveAction="#{usuarioBean.salvar}" 
+		onCancelAction="#{usuarioBean.cancelar}" 
+		title="#{usuarioBean.tituloDialog}" onCancelUpdate="@form frmTable" 
+		onSaveUpdate="@form frmTable" showEffect="slide" hideEffect="explode">
+		<h:inputHidden value="#{usuarioBean.objeto.codigo}" />
+		<p:panelGrid>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="#{msg['geral.codigo']}" />
+				</p:column>
+				<p:column colspan="3">
+					<p:outputLabel value="#{usuarioBean.objeto.codigo}" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel for="nome" value="#{msg['geral.nome']}" />
+				</p:column>
+				<p:column>
+					<p:inputText id="nome" 
+						value="#{usuarioBean.objeto.nome}"
+						required="true" 
+						requiredMessage="#{msg['usuario.nome.obrigatorio']}"
+						validatorMessage="#{msg['usuario.nome.tamanho']}">
+						<f:validateLength maximum="60" />
+					</p:inputText>
+					<p:message for="nome" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel for="email" value="#{msg['usuario.email']}" />
+				</p:column>
+				<p:column>
+					<p:inputText id="email" 
+						value="#{usuarioBean.objeto.email}"
+						validatorMessage="#{msg['usuario.email.tamanho']}">
+						<f:validateLength maximum="100" />
+					</p:inputText>
+					<p:message for="email" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel for="username" 
+						value="#{msg['usuario.username']}" />
+				</p:column>
+				<p:column>
+					<p:inputText id="username" 
+						value="#{usuarioBean.objeto.username}"
+						required="true" 
+						requiredMessage="#{msg['usuario.username.obrigatorio']}"
+						disabled="#{usuarioBean.isAdmin()}" />
+					<p:message for="username" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel for="password" 
+						value="#{msg['usuario.password']}" />
+				</p:column>
+				<p:column>
+					<p:password id="password" 
+						value="#{usuarioBean.objeto.password}"
+						required="true" 
+						requiredMessage="#{msg['usuario.password.obrigatorio']}"
+						match="password2" redisplay="true"
+						validatorMessage="#{msg['usuario.password.confirmacao_invalida']}" />
+					<p:message for="password" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel for="password2" 
+						value="#{msg['usuario.password.confirmacao']}" />
+				</p:column>
+				<p:column>
+					<p:password id="password2" 
+						value="#{usuarioBean.objeto.password}"
+						required="true" 
+						requiredMessage="#{msg['usuario.password.confirmacao']}" 
+						redisplay="true"
+						validatorMessage="#{msg['usuario.password.confirmacao_invalida']}" />
+					<p:message for="password" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+	</app:crud-dialog>
+	<h:form id="frmTable">			
+		<p:dataTable value="#{usuarioBean.lista}" var="usuario" 
+			rowKey="#{usuario.codigo}" 
+			emptyMessage="#{msg['usuario.lista_vazia']}"
+			selection="#{usuarioBean.objeto}" selectionMode="single"
+			widgetVar="table">
+			<f:facet name="header">#{msg['usuario.listar']}</f:facet>
+			<p:ajax event="rowSelect" listener="#{usuarioBean.onRowSelect}" 
+				update="@form" />
+			<p:column headerText="#{msg['geral.codigo']}">
+				<p:outputLabel value="#{usuario.codigo}" />
+			</p:column>
+			<p:column headerText="#{msg['geral.nome']}">
+				<p:outputLabel value="#{usuario.nome}" />
+			</p:column>
+			<p:column headerText="#{msg['usuario.email']}">
+				<p:outputLabel value="#{usuario.email}" />
+			</p:column>
+			<p:column headerText="#{msg['usuario.username']}">
+				<p:outputLabel value="#{usuario.username}" />
+			</p:column>
+			<f:facet name="footer">					
+				<p:commandButton value="#{msg['geral.novo']}" process="@this"
+					update=":#{p:component('dlgForm')}" resetValues="true"
+					action="#{usuarioBean.novo()}" />
+				<p:commandButton value="#{msg['geral.alterar']}" process="@form" 
+					update=":#{p:component('dlgForm')}" resetValues="true"
+					disabled="#{!usuarioBean.registroSelecionado}"
+					action="#{usuarioBean.alterar()}" />
+				<p:commandButton value="#{msg['geral.remover']}" process="@form"
+					update="@form" disabled="#{!usuarioBean.registroSelecionado}"
+					action="#{usuarioBean.remover()}">
+					<p:confirm header="#{msg['geral.atencao']}" 
+						message="#{msg['usuario.remover.confirmar']}"
+						icon="ui-icon-alert" />
+				</p:commandButton>
+			</f:facet>
+		</p:dataTable>
+	</h:form>
+</ui:define>
+</ui:composition>

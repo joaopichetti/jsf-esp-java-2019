@@ -30,6 +30,8 @@ public class Application {
 				servletContext.setInitParameter("javax.faces.STATE_SAVING_METHOD", "cliente");
 				servletContext.setInitParameter(Constants.ContextParams.MOVE_SCRIPTS_TO_BOTTOM, "true");
 				servletContext.setInitParameter(Constants.ContextParams.THEME, "#{sessionBean.theme}");
+				servletContext.setInitParameter(Constants.ContextParams.FONT_AWESOME, "true");
+				servletContext.setInitParameter("javax.faces.FACELETS_LIBRARIES", "/WEB-INF/springsecurity.taglib.xml");
 			}
 		};
 	}

@@ -1,7 +1,8 @@
 <ui:fragment xmlns:ui="http://java.sun.com/jsf/facelets"
       		 xmlns:f="http://java.sun.com/jsf/core"
       		 xmlns:h="http://java.sun.com/jsf/html"
-      		 xmlns:p="http://primefaces.org/ui">      		 
+      		 xmlns:p="http://primefaces.org/ui"
+      		 xmlns:sec="http://www.springframework.org/security/tags">      		 
 	<h:form>
 		<p:menu>
 			<p:submenu label="#{msg['geral.cadastros']}">
@@ -19,6 +20,10 @@
 					value="#{msg['produto.listar']}" />
 				<p:menuitem outcome="uf" 
 					value="#{msg['uf.listar']}" />
+				<sec:authorize ifAnyGranted="ROLE_ADMIN">
+					<p:menuitem outcome="usuario" 
+						value="#{msg['usuario.listar']}" />
+				</sec:authorize>
 			</p:submenu>
 		</p:menu>
 	</h:form>

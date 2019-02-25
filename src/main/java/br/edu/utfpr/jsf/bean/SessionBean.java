@@ -4,8 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import br.edu.utfpr.jsf.model.Usuario;
 import br.edu.utfpr.jsf.util.Theme;
 
 @Component
@@ -52,6 +55,7 @@ public class SessionBean {
 			new Theme("Ui-lightness", "ui-lightness"),
 			new Theme("Vader", "vader")
 	);
+	private Usuario usuario;
 
 	public String getTheme() {
 		return theme;
@@ -67,6 +71,22 @@ public class SessionBean {
 
 	public void setThemes(List<Theme> themes) {
 		this.themes = themes;
+	}
+
+	public Usuario getUsuario() {
+		if (usuario == null) {
+			Authentication authentication = SecurityContextHolder.getContext()
+					.getAuthentication();
+			if (authentication != null && 
+					authentication.getPrincipal() instanceof Usuario) {
+				usuario = (Usuario) authentication.getPrincipal();
+			}
+		}
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 }

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>#{msg['geral.login']}</title>
+</h:head>
+<h:body>
+	<f:metadata>
+		<f:viewParam name="error" />
+	</f:metadata>
+	<p:panel header="Login" style="width: 500px; margin: 5% auto;">
+		<f:subview rendered="#{param.error == 'bad-credentials'}">
+			<div class="ui-message-error">
+				<span class="ui-message-error-icon" /> <span
+					class="ui-message-error-detail">
+					#{msg['usuario.credenciais_invalidas']} </span>
+			</div>
+		</f:subview>
+		<form action="/login.xhtml" method="post">
+			<p:focus />
+			<h:panelGrid columns="2" cellspacing="10">
+				<p:outputLabel value="#{msg['usuario.username']}" for="username" />
+				<p:inputText id="username" size="40" required="true"
+					requiredMessage="#{msg['usuario.username.obrigatorio']}" />
+				<p:spacer />
+				<p:message for="username" />
+				<p:outputLabel value="#{msg['usuario.password']}"
+					for="password" />
+				<p:password id="password" size="40" required="true"
+					requiredMessage="#{msg['usuario.password.obrigatorio']}" />
+				<p:spacer />
+				<p:message for="password" />
+			</h:panelGrid>
+			<p:messages id="messages" showDetail="true" showSummary="false"
+				autoUpdate="true" closable="true" globalOnly="true" />
+			<p:separator />
+			<div align="right">
+				<button
+					class="ui-button ui-widget ui-state-default 
+							ui-corner-all ui-button-text-only"
+					type="submit">
+					<span class="ui-button-text ui-c">#{msg['geral.acessar']}</span>
+				</button>
+			</div>
+		</form>
+	</p:panel>
+</h:body>
+</html>
